@@ -5,27 +5,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-    private TextView textView;
+public class Signup2Activity extends AppCompatActivity {
+    private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup2);
 
-        textView = findViewById(R.id.text);
-        textView.setOnClickListener(new View.OnClickListener() {
+        button = findViewById(R.id.button11);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivitySignUp();
+                openActivitySignup3();
             }
         });
     }
 
-    public void openActivitySignUp() {
-        Intent intent = new Intent(this,SignupActivity.class);
+    public void openActivitySignup3(){
+        Intent intent = new Intent(this,UserInformation.class);
         startActivity(intent);
     }
 }

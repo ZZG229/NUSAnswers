@@ -8,24 +8,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class UserInformation extends AppCompatActivity {
     private TextView textView;
+    private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_information);
 
-        textView = findViewById(R.id.text);
+        textView = findViewById(R.id.textView13);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivitySignUp();
+                openAbout();
+            }
+        });
+
+        button = findViewById(R.id.button121);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAbout();
             }
         });
     }
 
-    public void openActivitySignUp() {
-        Intent intent = new Intent(this,SignupActivity.class);
+    public void openAbout(){
+        Intent intent = new Intent(this,About.class);
         startActivity(intent);
     }
 }
