@@ -1,30 +1,104 @@
 package com.example.a229zzg.nusanswers;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-public class SignupActivity extends AppCompatActivity {
-    private Button button;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
+    private ProgressBar progressBar;
+    private FirebaseAuth firebaseAuth;
+    private EditText editEmail;
+    private EditText editPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        button = findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivitySignup2();
-            }
-        });
+        editEmail = findViewById(R.id.editEmailforSignup);
+
+        editPassword = findViewById(R.id.editPasswordforSignup);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        progressBar = findViewById(R.id.progressBar);
+
+        findViewById(R.id.buttonForSignUp).setOnClickListener(this);
+
     }
 
-    public void openActivitySignup2(){
-        Intent intent = new Intent(this,Signup2Activity.class);
-        startActivity(intent);
+    private void registerUser() {
+        String email = editEmail.getText().toString().trim();
+        String password = editPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editEmail.setError("Email is required");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            editPassword.setError("Password is required.");
+            editPassword.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editEmail.setError("Please enter a valid email");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if(password.length()<6){
+            editPassword.setError("Minimum length of password should be 6");
+            editPassword.requestFocus();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            //user is successfully registered and logged in
+                            //we will start the profile activity here
+                            //right now lets display a toast only
+                            Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                Toast.makeText(getApplicationContext(),"You are already registered",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.buttonForSignUp:
+                registerUser();
+                break;
+        }
     }
 }

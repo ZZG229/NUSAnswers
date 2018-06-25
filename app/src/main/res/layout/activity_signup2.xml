@@ -78,7 +78,7 @@
         android:typeface="serif" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/buttonLogIn"
         style="@android:style/Widget.Button"
         android:layout_width="316dp"
         android:layout_height="32dp"
