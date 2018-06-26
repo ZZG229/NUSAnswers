@@ -24,7 +24,10 @@
         <activity android:name=".Signup2Activity" />
         <activity android:name=".signup3Activity" />
         <activity android:name=".UserInformation" />
-        <activity android:name=".About"></activity>
+        <activity android:name=".About" />
+        <activity android:name=".UserMain"
+                  android:exported="true">
+        </activity>
     </application>
 
 </manifest>

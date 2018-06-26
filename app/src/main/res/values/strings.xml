@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">NUSAnswers</string>
+
+    <!-- Strings for Sign-in -->
     <string name="password">"You'll need a password"</string>
     <string name="password_single">Password</string>
     <string name="Email">"Email Address"</string>
@@ -20,4 +22,12 @@
     <string name="which_programme_are_you_enrolled_in">"Which programme are you enrolled in ?"</string>
     <string name="sign_up_requirement">"By signing up, you agree to the Terms of Service and Private Policy, including Cookie use."</string>
     <string name="password_requirement">"Password needs to be at least 6 digit long"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Strings for User Home -->
+    <string name="home_title">Home</string>
+    <string name="contributions_title">Contributions</string>
+    <string name="pastmodules_title">Past Modules</string>
 </resources>
