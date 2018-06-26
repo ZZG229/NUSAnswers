@@ -43,13 +43,14 @@ public class UserMain extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                TextView toolbarText = findViewById(R.id.toolbarTextView);
                 if (tab.getPosition() == 1) {
-                    toolbar.setTitle("Contributions");
+                    toolbarText.setText(getResources().getString(R.string.contributions_title));
                 } else if (tab.getPosition() == 2) {
-                    toolbar.setTitle("Past Modules");
+                    toolbarText.setText(getResources().getString(R.string.pastmodules_title));
                 } else if (tab.getPosition() == 3) {
-                    toolbar.setTitle("Search");
                 } else {
+                    toolbarText.setText(getResources().getString(R.string.home_title));
                 }
             }
 
