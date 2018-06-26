@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "627417588556",
+    "firebase_url": "https://nusanswers-c1c8e.firebaseio.com",
+    "project_id": "nusanswers-c1c8e",
+    "storage_bucket": "nusanswers-c1c8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627417588556:android:5975c7297af2fd3f",
+        "android_client_info": {
+          "package_name": "com.example.a229zzg.nusanswers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627417588556-pfe6eqqc8b30p2blhu7nbndqhorkookh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a229zzg.nusanswers",
+            "certificate_hash": "af93bf9ca3a06c2755821514c4da720a66850a23"
+          }
+        },
+        {
+          "client_id": "627417588556-vp2dd62dvi2uth7vjv5nmf75n09povfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDshlQp9i3VC3zKTbsG_uPw0oAowha2KQ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627417588556-vp2dd62dvi2uth7vjv5nmf75n09povfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
