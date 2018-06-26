@@ -34,9 +34,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         editPassword = findViewById(R.id.editPasswordforSignup);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         progressBar = findViewById(R.id.progressBar);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         findViewById(R.id.buttonForSignUp).setOnClickListener(this);
 
@@ -78,10 +78,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            //user is successfully registered and logged in
-                            //we will start the profile activity here
-                            //right now lets display a toast only
                             Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(),UserInformation.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
                         } else {
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){
                                 Toast.makeText(getApplicationContext(),"You are already registered",Toast.LENGTH_SHORT).show();
