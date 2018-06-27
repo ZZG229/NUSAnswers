@@ -24,13 +24,14 @@
         <activity android:name=".UserInformation" />
         <activity android:name=".About" />
         <activity
-            android:name=".UserMain"
-            android:exported="true" />
-        <activity
             android:name=".UserHome"
-            android:label="@string/title_activity_user_home"
             android:exported="true"
+            android:label="@string/title_activity_user_home"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserProfile"
+            android:label="@string/title_activity_user_profile"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
