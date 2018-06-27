@@ -3,18 +3,27 @@ package com.example.a229zzg.nusanswers;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,17 +49,27 @@ public class Signup2Activity extends AppCompatActivity {
     ProgressBar progressBar;
     String profileImageUrl;
     FirebaseAuth mAuth;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup2);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         editText = findViewById(R.id.UserName);
         imageView = findViewById(R.id.UserIcon);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.camera);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+        roundedBitmapDrawable.setCircular(true);
+        imageView.setImageDrawable(roundedBitmapDrawable);
+
         progressBar = findViewById(R.id.progressBarForSignUp2);
         mAuth = FirebaseAuth.getInstance();
-
+        textView = findViewById(R.id.textViewVerified);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +89,17 @@ public class Signup2Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        if (mAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this,MainActivity.class));
+        }
+    }
+
     private void loadUserInformation() {
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        final FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
         if (firebaseUser != null) {
             if (firebaseUser.getPhotoUrl() != null) {
@@ -81,6 +109,23 @@ public class Signup2Activity extends AppCompatActivity {
             }
             if (firebaseUser.getDisplayName() != null) {
                 editText.setText(firebaseUser.getDisplayName());
+            }
+
+            if (firebaseUser.isEmailVerified()){
+                textView.setText("Email Verified");
+            }else {
+                textView.setText("Email Not Verified (Click to Verify)");
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(getApplicationContext(),"Verification Email Sent",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         }
     }
@@ -150,6 +195,27 @@ public class Signup2Activity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menuLogout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(this,MainActivity.class));
+                break;
+        }
+        return true;
+    }
 
     private void showImageChooser(){
         Intent intent = new Intent();

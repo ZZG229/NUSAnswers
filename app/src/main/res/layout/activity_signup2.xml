@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -33,6 +35,24 @@
         android:textColorHint="#000000"
         android:typeface="serif" />
 
+    <TextView
+        android:id="@+id/textViewVerified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:text="@string/verified"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="#000000"
+        android:typeface="serif" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="#F2A968"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+
     <Button
         android:id="@+id/buttonSave"
         style="@android:style/Widget.Button"
@@ -56,16 +76,17 @@
             android:layout_height="278dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="91dp"
+            android:layout_marginTop="109dp"
             app:srcCompat="@drawable/camera" />
 
+
         <ProgressBar
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:id="@+id/progressBarForSignUp2"
             android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -75,10 +96,12 @@
         android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="70dp"
         android:text="@string/Tap_on_camera"
         android:textColor="#000000"
         android:textSize="17sp"
         android:typeface="serif" />
+
+
 
 </RelativeLayout>
