@@ -6,11 +6,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class PageAdapter extends FragmentPagerAdapter{
 
+    private String[] titles = new String[]{"Home", "Contributions", "Past Modules", "Search"};
     private int numOfTabs;
 
     PageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 
     @Override
