@@ -16,7 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +32,10 @@ public class UserHome extends AppCompatActivity
     TabItem tabContributions;
     TabItem tabPastModules;
     TabItem tabSearch;
+
+    //FIREBASE AUTHENTICATION FIELDS
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +177,8 @@ public class UserHome extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
     */
+
+    ImageView userPicture = (ImageView)findViewById(R.id.nav_profile_picture);
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
