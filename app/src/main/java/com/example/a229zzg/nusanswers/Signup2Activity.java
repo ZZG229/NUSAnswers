@@ -187,7 +187,7 @@ public class Signup2Activity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(View.GONE);
-                    profileImageUrl = taskSnapshot.getDownloadUrl().toString();
+                    profileImageUrl = taskSnapshot.getUploadSessionUri().toString();
                 }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
