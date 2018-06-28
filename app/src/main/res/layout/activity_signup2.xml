@@ -33,6 +33,7 @@
         android:hint="@string/name"
         android:inputType="textPersonName"
         android:textColorHint="#000000"
+        android:textColor="#000000"
         android:typeface="serif" />
 
     <TextView
@@ -72,12 +73,12 @@
 
         <ImageView
             android:id="@+id/UserIcon"
-            android:layout_width="279dp"
-            android:layout_height="278dp"
+            android:layout_width="230dp"
+            android:layout_height="210dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="109dp"
-            app:srcCompat="@drawable/camera" />
+            android:layout_marginTop="130dp"
+            app:srcCompat="@drawable/circleprofile" />
 
 
         <ProgressBar
@@ -88,20 +89,16 @@
             android:layout_centerVertical="true"
             android:visibility="gone" />
 
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="49dp"
+            android:layout_height="38dp"
+            android:layout_alignEnd="@+id/UserIcon"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="235dp"
+            app:srcCompat="@drawable/cameraicon" />
+
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="@string/Tap_on_camera"
-        android:textColor="#000000"
-        android:textSize="17sp"
-        android:typeface="serif" />
-
 
 
 </RelativeLayout>

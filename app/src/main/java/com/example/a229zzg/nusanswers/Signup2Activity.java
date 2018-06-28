@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class Signup2Activity extends AppCompatActivity {
     String profileImageUrl;
     FirebaseAuth mAuth;
     TextView textView;
+    ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class Signup2Activity extends AppCompatActivity {
         editText = findViewById(R.id.UserName);
         imageView = findViewById(R.id.UserIcon);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.camera);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.circleprofile);
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(),bitmap);
         roundedBitmapDrawable.setCircular(true);
         imageView.setImageDrawable(roundedBitmapDrawable);
@@ -70,8 +72,9 @@ public class Signup2Activity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarForSignUp2);
         mAuth = FirebaseAuth.getInstance();
         textView = findViewById(R.id.textViewVerified);
+        imageButton = findViewById(R.id.imageButton);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageChooser();
@@ -79,6 +82,7 @@ public class Signup2Activity extends AppCompatActivity {
         });
 
         loadUserInformation();
+
 
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
