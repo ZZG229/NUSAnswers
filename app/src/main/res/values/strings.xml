@@ -14,6 +14,8 @@
     <string name="next">Next</string>
     <string name="save">Save</string>
     <string name="verified">Verified</string>
+    <string name="email_verified">Email verified</string>
+    <string name="email_not_verified">Email not verified (Tap to verify)</string>
     <string name="Tap_on_camera">"Tap on camera to choose profile picture"</string>
     <string name="NUSAnswers_is_an...">"NUSAnswers is an online community for NUS students to ask questions about past-year papers, answer others and learn together."</string>
     <string name="developed_by_twonames">"Developed by Travis Ching || Zhou Zegang"</string>

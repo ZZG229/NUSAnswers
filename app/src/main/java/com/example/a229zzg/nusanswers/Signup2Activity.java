@@ -116,9 +116,9 @@ public class Signup2Activity extends AppCompatActivity {
             }
 
             if (firebaseUser.isEmailVerified()){
-                textView.setText("Email Verified");
+                textView.setText(getResources().getString(R.string.email_verified));
             }else {
-                textView.setText("Email Not Verified (Click to Verify)");
+                textView.setText(getResources().getString(R.string.email_not_verified));
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
