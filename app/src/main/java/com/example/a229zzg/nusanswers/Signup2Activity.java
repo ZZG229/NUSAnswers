@@ -52,7 +52,7 @@ public class Signup2Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textView;
     ImageButton imageButton;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +143,10 @@ public class Signup2Activity extends AppCompatActivity {
             editText.setError("Name required");
             editText.requestFocus();
             return;
-        }else{ ;
-            UserInfo userInfo = new UserInfo(displayName);
-            FirebaseUser user = mAuth.getCurrentUser();
-            databaseReference.child(user.getUid()).setValue(userInfo);
+        }else{
+            String id = databaseReference.push().getKey();
+            UserInfo userInfo = new UserInfo(id,displayName);
+            databaseReference.child(id).setValue(userInfo);
         }
 
         FirebaseUser user = mAuth.getCurrentUser();

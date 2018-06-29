@@ -1,13 +1,15 @@
 package com.example.a229zzg.nusanswers;
 
 public class UserInfo {
-    public String Username;
+    String UserId;
+    String Username;
 
     public UserInfo(){
 
     }
 
-    public UserInfo(String username) {
+    public UserInfo(String userId, String username) {
+        UserId = userId;
         Username = username;
     }
 }
