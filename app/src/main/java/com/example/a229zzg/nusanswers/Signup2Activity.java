@@ -53,7 +53,7 @@ public class Signup2Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textView;
     ImageButton imageButton;
-    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserProfile");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserProfilePicture");
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
 
     @Override
@@ -158,8 +158,8 @@ public class Signup2Activity extends AppCompatActivity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading");
             progressDialog.show();
-
-            storageReference = storageReference.child("images/ProfileImage.jpg");
+            String id = mAuth.getCurrentUser().getUid();
+            storageReference = storageReference.child(id + ".jpg");
             storageReference.putFile(uriProfileImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -236,7 +236,8 @@ public class Signup2Activity extends AppCompatActivity {
     }
 
     private void uploadImageToFirebaseStorage(){
-        StorageReference profileImageRef = FirebaseStorage.getInstance().getReference("profilepics/"+System.currentTimeMillis() + ".jpg");
+        String id = mAuth.getCurrentUser().getUid();
+        StorageReference profileImageRef = storageReference.child(id + ".jpg");
         if(uriProfileImage != null){
             progressBar.setVisibility(View.VISIBLE);
             profileImageRef.putFile(uriProfileImage)
