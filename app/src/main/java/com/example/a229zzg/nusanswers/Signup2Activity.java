@@ -24,8 +24,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +33,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -52,6 +52,7 @@ public class Signup2Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textView;
     ImageButton imageButton;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,10 @@ public class Signup2Activity extends AppCompatActivity {
             editText.setError("Name required");
             editText.requestFocus();
             return;
+        }else{
+            String id = databaseReference.push().getKey();
+            UserInfo userInfo = new UserInfo(id,displayName);
+            databaseReference.child(id).setValue(userInfo);
         }
 
         FirebaseUser user = mAuth.getCurrentUser();
