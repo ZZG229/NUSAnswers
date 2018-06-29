@@ -36,6 +36,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -52,6 +53,7 @@ public class Signup2Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textView;
     ImageButton imageButton;
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserProfile");
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
 
     @Override
@@ -151,7 +153,54 @@ public class Signup2Activity extends AppCompatActivity {
 
         }
 
-        FirebaseUser user = mAuth.getCurrentUser();
+        if (uriProfileImage != null) {
+            //displaying a progress dialog while upload is going on
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+
+            storageReference = storageReference.child("images/ProfileImage.jpg");
+            storageReference.putFile(uriProfileImage)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //if the upload is successful
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying a success toast
+                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            //if the upload is not successful
+                            //hiding the progress dialog
+                            progressDialog.dismiss();
+
+                            //and displaying error message
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            //calculating progress percentage
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                            //displaying percentage in progress dialog
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+        //if there is not any file
+        else {
+            Toast.makeText(getApplicationContext(),"Please Choose An Image",Toast.LENGTH_SHORT).show();
+            //you can display an error toast
+        }
+
+        /* FirebaseUser user = mAuth.getCurrentUser();
 
         if(user != null && profileImageUrl != null){
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
@@ -166,7 +215,7 @@ public class Signup2Activity extends AppCompatActivity {
                     }
                 }
             });
-        }
+        }*/
     }
 
     @Override
