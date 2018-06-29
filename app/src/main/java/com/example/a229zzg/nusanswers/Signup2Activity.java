@@ -138,6 +138,7 @@ public class Signup2Activity extends AppCompatActivity {
     private void saveUserInformation() {
         String displayName = editText.getText().toString();
 
+        
         if(displayName.isEmpty()){
             editText.setError("Name required");
             editText.requestFocus();
