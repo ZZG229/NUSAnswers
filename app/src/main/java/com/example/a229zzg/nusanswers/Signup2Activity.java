@@ -138,15 +138,15 @@ public class Signup2Activity extends AppCompatActivity {
     private void saveUserInformation() {
         String displayName = editText.getText().toString();
 
-        
+
         if(displayName.isEmpty()){
             editText.setError("Name required");
             editText.requestFocus();
             return;
-        }else{
-            String id = databaseReference.push().getKey();
-            UserInfo userInfo = new UserInfo(id,displayName);
-            databaseReference.child(id).setValue(userInfo);
+        }else{ ;
+            UserInfo userInfo = new UserInfo(displayName);
+            FirebaseUser user = mAuth.getCurrentUser();
+            databaseReference.child(user.getUid()).setValue(userInfo);
         }
 
         FirebaseUser user = mAuth.getCurrentUser();
