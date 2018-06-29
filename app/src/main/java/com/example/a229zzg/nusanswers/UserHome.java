@@ -2,6 +2,7 @@ package com.example.a229zzg.nusanswers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabItem;
@@ -18,8 +19,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+
+import org.w3c.dom.Text;
 
 public class UserHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,23 +43,23 @@ public class UserHome extends AppCompatActivity
     TabItem tabPastModules;
     TabItem tabSearch;
 
-    //FIREBASE AUTHENTICATION FIELDS
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
+    //FIREBASE
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mfirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
@@ -134,19 +144,37 @@ public class UserHome extends AppCompatActivity
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ImageView userPicture = findViewById(R.id.nav_profile_picture);
+        TextView userName = findViewById(R.id.nav_user_name);
+        mAuth = FirebaseAuth.getInstance();
+        mfirebaseDatabase = FirebaseDatabase.getInstance();
+
+        DatabaseReference databaseReference = mfirebaseDatabase.getReference(mAuth.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -154,7 +182,7 @@ public class UserHome extends AppCompatActivity
         }
     }
 
-    /*
+    /* Create menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -178,8 +206,6 @@ public class UserHome extends AppCompatActivity
     }
     */
 
-    ImageView userPicture = (ImageView)findViewById(R.id.nav_profile_picture);
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -190,15 +216,13 @@ public class UserHome extends AppCompatActivity
             startActivity(new Intent(this, UserProfile.class));
         } else if (id == R.id.nav_bookmarks) {
 
-        } else if (id == R.id.nav_settings) {
-
         } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_logout) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

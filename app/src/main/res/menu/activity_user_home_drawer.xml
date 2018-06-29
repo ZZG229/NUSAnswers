@@ -12,10 +12,11 @@
             android:id="@+id/nav_bookmarks"
             android:icon="@drawable/bookmark_icon"
             android:title="@string/nav_bookmarks" />
+        <!--
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/settings_icon"
-            android:title="@string/nav_settings" />
+            android:title="@string/nav_settings" /> -->
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/about_icon"

@@ -28,10 +28,18 @@
             android:exported="true"
             android:label="@string/title_activity_user_home"
             android:theme="@style/AppTheme" />
+        <!-- A child of the User Home activity -->
         <activity
             android:name=".UserProfile"
+            android:exported="true"
             android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".UserHome"
+            android:theme="@style/AppTheme" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserHome" />
+        </activity>
     </application>
 
 </manifest>
