@@ -144,9 +144,11 @@ public class Signup2Activity extends AppCompatActivity {
             editText.requestFocus();
             return;
         }else{
-            String id = databaseReference.push().getKey();
+            String id = mAuth.getCurrentUser().getUid();
             UserInfo userInfo = new UserInfo(id,displayName);
             databaseReference.child(id).setValue(userInfo);
+            Toast.makeText(getApplicationContext(),"Username Saved",Toast.LENGTH_SHORT).show();
+
         }
 
         FirebaseUser user = mAuth.getCurrentUser();
