@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="210dp"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -24,7 +24,7 @@
             app:toolbarId="@+id/toolbar">
 
             <ImageView
-                android:id="@+id/backdrop"
+                android:id="@+id/profile_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -33,17 +33,30 @@
             <View
                 android:id="@+id/opaque_view"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="75dp"
                 android:layout_gravity="bottom"
-                tools:background="#82ffffff" />
+                android:background="#82ffffff"
+                tools:visibility="visible" />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/profile_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:theme="@style/AppTheme"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <Button
+                android:id="@+id/edit_profile_button"
+                android:layout_width="99dp"
+                android:layout_height="34dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_bg_transparent"
+                android:text="@string/edit_profile"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
