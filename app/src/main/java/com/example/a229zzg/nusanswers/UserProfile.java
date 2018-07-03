@@ -1,6 +1,7 @@
 package com.example.a229zzg.nusanswers;
 
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,8 +12,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class UserProfile extends AppCompatActivity {
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
+    final FirebaseUser firebaseUser = mAuth.getCurrentUser();
+    final int radius = 50;
+    final int margin = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +44,10 @@ public class UserProfile extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        // Collapsing toolbar on change
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                ImageView userPicture = findViewById(R.id.user_picture);
                 Button button = findViewById(R.id.edit_profile_button);
                 if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0)
                 {
@@ -43,5 +61,24 @@ public class UserProfile extends AppCompatActivity {
                 }
             }
         });
+
+        final ImageView userProfilePicture = findViewById(R.id.pp_user_picture);
+        TextView userName = findViewById(R.id.pp_user_name);
+        if (firebaseUser != null) {
+            String id = mAuth.getCurrentUser().getUid();
+            storageReference.child(id).child("Images/Profile Picture").
+                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit().centerCrop().
+                            transform(new RoundTransformation(radius,margin)).into(userProfilePicture);
+                }
+            });
+
+            if (firebaseUser.getDisplayName() != null) {
+                userName.setText(firebaseUser.getDisplayName());
+            }
+        }
     }
 }

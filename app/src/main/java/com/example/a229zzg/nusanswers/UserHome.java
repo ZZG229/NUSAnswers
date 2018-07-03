@@ -1,6 +1,7 @@
 package com.example.a229zzg.nusanswers;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,13 +22,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -42,10 +47,15 @@ public class UserHome extends AppCompatActivity
     TabItem tabContributions;
     TabItem tabPastModules;
     TabItem tabSearch;
+    final int radius = 300;
+    final int margin = 15;
 
     //FIREBASE
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase mfirebaseDatabase;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseDatabase mfirebaseDatabase = FirebaseDatabase.getInstance();
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
+    DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
+    final FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,30 +156,38 @@ public class UserHome extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // Do whatever you want here
+            }
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                final ImageView userPicture = findViewById(R.id.nav_profile_picture);
+                TextView userName = findViewById(R.id.nav_user_name);
+                if (firebaseUser != null) {
+                    String id = firebaseUser.getUid();
+                    storageReference.child(id).child("Images/Profile Picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).fit().centerCrop().
+                                    transform(new RoundTransformation(radius,margin)).into(userPicture);
+                        }
+                    });
+
+                    if (firebaseUser.getDisplayName() != null) {
+                        userName.setText(firebaseUser.getDisplayName());
+                    }
+                }
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        ImageView userPicture = findViewById(R.id.nav_profile_picture);
-        TextView userName = findViewById(R.id.nav_user_name);
-        mAuth = FirebaseAuth.getInstance();
-        mfirebaseDatabase = FirebaseDatabase.getInstance();
-
-        DatabaseReference databaseReference = mfirebaseDatabase.getReference(mAuth.getUid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override
