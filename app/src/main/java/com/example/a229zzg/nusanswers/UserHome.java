@@ -235,9 +235,11 @@ public class UserHome extends AppCompatActivity
         } else if (id == R.id.nav_bookmarks) {
 
         } else if (id == R.id.nav_about) {
-
+            startActivity(new Intent(this, About.class));
         } else if (id == R.id.nav_logout) {
-
+            mAuth.signOut();
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
