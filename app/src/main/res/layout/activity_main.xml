@@ -112,4 +112,12 @@
         android:text="@string/Travis_and_zegang"
         android:textColor="#000000" />
 
+    <Button
+        android:id="@+id/buttonForTesting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Button" />
+
 </RelativeLayout>

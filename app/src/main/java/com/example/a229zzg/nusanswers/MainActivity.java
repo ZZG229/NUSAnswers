@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseAuth mAuth;
     EditText editEmail, editPassword;
     ProgressBar progressBar;
+    Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressBar = findViewById(R.id.progressBarForMain);
         findViewById(R.id.TextForSignUp).setOnClickListener(this);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
+        button = findViewById(R.id.buttonForTesting);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
+    }
+
+    public void openActivity(){
+        Intent intent = new Intent(this,UserInformation.class);
+        startActivity(intent);
     }
 
     private void userLogin(){
