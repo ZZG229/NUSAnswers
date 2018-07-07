@@ -12,24 +12,20 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -39,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -53,7 +50,7 @@ public class Signup2Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textView;
     ImageButton imageButton;
-    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserProfilePicture");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
 
     @Override
@@ -86,7 +83,6 @@ public class Signup2Activity extends AppCompatActivity {
 
         loadUserInformation();
 
-
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,11 +105,16 @@ public class Signup2Activity extends AppCompatActivity {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
         if (firebaseUser != null) {
-            if (firebaseUser.getPhotoUrl() != null) {
-                Glide.with(this)
-                        .load(firebaseUser.getPhotoUrl().toString())
-                        .into(imageView);
-            }
+            // Loading image part is not working. Will work on it tmr.
+            String id = mAuth.getCurrentUser().getUid();
+            storageReference.child(id).child("Images/Profile Picture").
+                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit().centerCrop().into(imageView);
+                }
+            });
+
             if (firebaseUser.getDisplayName() != null) {
                 editText.setText(firebaseUser.getDisplayName());
             }
@@ -195,8 +196,8 @@ public class Signup2Activity extends AppCompatActivity {
             progressDialog.setTitle("Uploading");
             progressDialog.show();
             String id = mAuth.getCurrentUser().getUid();
-            storageReference = storageReference.child(id + ".jpg");
-            storageReference.putFile(uriProfileImage)
+            StorageReference uploadStorageReference = storageReference.child(id).child("Images").child("Profile Picture");
+            uploadStorageReference.putFile(uriProfileImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
