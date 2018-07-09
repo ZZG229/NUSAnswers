@@ -70,10 +70,8 @@ public class UserInformation extends AppCompatActivity {
 
         initialList();
         editTextForCompleted.addTextChangedListener(new TextWatcher() {
-            int length;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-           length = s.toString().length();
             }
 
             @Override
@@ -88,14 +86,7 @@ public class UserInformation extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()<length){
-                    initialList();
-                    for (Module module : Modules){
-                        if (!module.getCode().toLowerCase().contains(s.toString().toLowerCase())) {
-                            Modules.remove(module);
-                        }
-                    }
-                }
+
             }
 
         });
@@ -131,6 +122,8 @@ public class UserInformation extends AppCompatActivity {
         for(Module module:Modules){
             if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
                 Modules.remove(module);
+            }else if(module.getCode().toLowerCase().contains(s) && !Modules.contains(module)){
+                Modules.add(module);
             }
         }
         adapter.notifyDataSetChanged();
