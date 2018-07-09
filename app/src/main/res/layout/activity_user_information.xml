@@ -71,27 +71,16 @@
             android:text="@string/next" />
 
     <Spinner
-            android:id="@+id/SpinnerProgram"
-            android:layout_width="268dp"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView4"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="42dp" />
-
-        <Button
-            android:id="@+id/buttonSaveForUserInfo"
-            android:layout_width="72dp"
-            android:layout_height="33dp"
-            android:layout_alignEnd="@+id/textView15"
-            android:layout_alignTop="@+id/SpinnerProgram"
-            android:background="#F2A068"
-            android:layout_centerHorizontal="true"
-            android:text="@string/save" />
+        android:id="@+id/SpinnerProgram"
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp" />
 
 
-
-        <EditText
+    <EditText
             android:id="@+id/SearchForCompleted"
             android:layout_width="349dp"
             android:layout_height="wrap_content"

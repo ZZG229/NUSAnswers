@@ -61,12 +61,34 @@ public class UserInformation extends AppCompatActivity {
 
 
         Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this,R.array.Programmes,android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this,R.array.Programmes,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerForProgram.setAdapter(arrayAdapter);
         spinnerForProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
+                databaseReference2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                            if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
+                                UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
+                                userInfo.setProgram(parent.getItemAtPosition(position).toString());
+                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                                Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString()+ " has been saved",Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+" selected",Toast.LENGTH_LONG).show();
             }
 
@@ -75,6 +97,7 @@ public class UserInformation extends AppCompatActivity {
 
             }
         });
+
 
         initialList();
         editTextForCompleted.addTextChangedListener(new TextWatcher() {
@@ -109,9 +132,12 @@ public class UserInformation extends AppCompatActivity {
                         for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
-                                userInfo.CompletedModules.add(module);
+                                ArrayList<Module> arrayList = userInfo.CompletedModules;
+                                arrayList.add(module);
+                                userInfo.setCompletedModules(arrayList);
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
                                 Toast.makeText(getApplicationContext(),module.getCode()+ " has been saved",Toast.LENGTH_SHORT).show();
+                                break;
                             }
                         }
 
