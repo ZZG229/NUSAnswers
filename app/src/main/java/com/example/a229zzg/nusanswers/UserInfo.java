@@ -6,8 +6,8 @@ public class UserInfo {
     String UserId;
     String Username;
     String Program;
-    ArrayList<String> CurrentEnrolledModules;
-    ArrayList<String> CompletedModules;
+    ArrayList<Module> CurrentEnrolledModules;
+    ArrayList<Module> CompletedModules;
 
     public UserInfo(){
 
@@ -25,11 +25,11 @@ public class UserInfo {
         Program = program;
     }
 
-    public void setCurrentEnrolledModules(ArrayList<String> currentEnrolledModules) {
+    public void setCurrentEnrolledModules(ArrayList<Module> currentEnrolledModules) {
         CurrentEnrolledModules = currentEnrolledModules;
     }
 
-    public void setCompletedModules(ArrayList<String> completedModules) {
+    public void setCompletedModules(ArrayList<Module> completedModules) {
         CompletedModules = completedModules;
     }
 }

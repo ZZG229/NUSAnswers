@@ -20,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,9 +30,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserInformation extends AppCompatActivity {
     DatabaseReference databaseReference;
+    DatabaseReference databaseReference2;
+    FirebaseAuth firebaseAuth;
     ListView listViewForCompleted;
     ListView listViewForCurrently;
     EditText editTextForCompleted;
@@ -44,12 +49,15 @@ public class UserInformation extends AppCompatActivity {
         setContentView(R.layout.activity_user_information);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("ListOfModules");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference().child("UserInfo");
+
         listViewForCompleted = findViewById(R.id.listViewForCompleted);
         //listViewForCurrently = findViewById(R.id.listViewForCurrently);
         editTextForCompleted = findViewById(R.id.SearchForCompleted);
         //editTextForCurrently = findViewById(R.id.SearchForCurrently);
         Modules = new ArrayList<>();
         adapter = new ModuleList(UserInformation.this,Modules);
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
         Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
@@ -89,6 +97,34 @@ public class UserInformation extends AppCompatActivity {
 
             }
 
+        });
+
+        listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Module module = Modules.get(position);
+                databaseReference2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                            if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
+                                UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
+                                userInfo.CompletedModules.add(module);
+                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                                Toast.makeText(getApplicationContext(),module.getCode()+ " has been saved",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
         });
 
     }
