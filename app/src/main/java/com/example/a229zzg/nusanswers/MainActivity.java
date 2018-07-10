@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseAuth mAuth;
     EditText editEmail, editPassword;
     ProgressBar progressBar;
+    Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressBar = findViewById(R.id.progressBarForMain);
         findViewById(R.id.TextForSignUp).setOnClickListener(this);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
+        button = findViewById(R.id.buttonForTesting);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity();
+            }
+        });
+    }
+
+    public void openActivity(){
+        Intent intent = new Intent(this,UserInformation.class);
+        startActivity(intent);
     }
 
     private void userLogin(){
@@ -78,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(getApplicationContext(),UserHome.class);
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(),UserMain.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }else{
@@ -89,9 +103,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(this,Signup2Activity.class));
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.TextForSignUp:
+                finish();
                 startActivity(new Intent(this,SignupActivity.class));
                 break;
             case R.id.buttonLogin:
