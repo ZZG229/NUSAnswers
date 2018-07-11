@@ -52,6 +52,8 @@ public class Signup2Activity extends AppCompatActivity {
     ImageButton imageButton;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
+    final int radius = 1000;
+    final int margin = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +107,13 @@ public class Signup2Activity extends AppCompatActivity {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
         if (firebaseUser != null) {
-            // Loading image part is not working. Will work on it tmr.
             String id = mAuth.getCurrentUser().getUid();
             storageReference.child(id).child("Images/Profile Picture").
                     getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.get().load(uri).fit().centerCrop().into(imageView);
+                    Picasso.get().load(uri).fit().centerCrop().
+                            transform(new RoundTransformation(radius, margin)).into(imageView);
                 }
             });
 
@@ -141,27 +143,23 @@ public class Signup2Activity extends AppCompatActivity {
     private void saveUserInformation() {
         String displayName = editText.getText().toString();
 
-
-        if(displayName.isEmpty()){
+        if (displayName.isEmpty()){
             editText.setError("Name required");
             editText.requestFocus();
             return;
-        }else{
+        } else {
             String id = mAuth.getCurrentUser().getUid();
-            UserInfo userInfo = new UserInfo(id,displayName);
+            UserInfo userInfo = new UserInfo(id, displayName);
             databaseReference.child(id).setValue(userInfo);
-            Toast.makeText(getApplicationContext(),"Username Saved",Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(getApplicationContext(), "Username Saved", Toast.LENGTH_SHORT).show();
         }
 
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        if(user != null && profileImageUrl != null){
+        if(mAuth.getCurrentUser() != null && profileImageUrl != null){
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName(displayName)
                     .setPhotoUri(Uri.parse(profileImageUrl))
                     .build();
-            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mAuth.getCurrentUser().updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){

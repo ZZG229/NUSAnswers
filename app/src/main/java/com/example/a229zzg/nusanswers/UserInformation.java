@@ -82,7 +82,6 @@ public class UserInformation extends AppCompatActivity {
 
                     }
 
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -97,7 +96,6 @@ public class UserInformation extends AppCompatActivity {
 
             }
         });
-
 
         initialList();
         editTextForCompleted.addTextChangedListener(new TextWatcher() {
@@ -132,7 +130,7 @@ public class UserInformation extends AppCompatActivity {
                         for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
-                                ArrayList<Module> arrayList = userInfo.CompletedModules;
+                                ArrayList<Module> arrayList = userInfo.completedModules;
                                 arrayList.add(module);
                                 userInfo.setCompletedModules(arrayList);
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
