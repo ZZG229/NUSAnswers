@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a229zzg.nusanswers">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -25,8 +23,22 @@
         <activity android:name=".signup3Activity" />
         <activity android:name=".UserInformation" />
         <activity android:name=".About" />
-        <activity android:name=".UserMain"
-                  android:exported="true">
+        <activity
+            android:name=".UserHome"
+            android:exported="true"
+            android:label="@string/title_activity_user_home"
+            android:theme="@style/AppTheme" />
+        <!-- A child of the User Home activity -->
+        <activity
+            android:name=".UserProfile"
+            android:exported="true"
+            android:label="@string/title_activity_user_profile"
+            android:parentActivityName=".UserHome"
+            android:theme="@style/AppTheme" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserHome" />
         </activity>
     </application>
 
