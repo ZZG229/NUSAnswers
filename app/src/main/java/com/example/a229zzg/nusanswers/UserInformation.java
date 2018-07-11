@@ -130,7 +130,12 @@ public class UserInformation extends AppCompatActivity {
                         for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
-                                ArrayList<Module> arrayList = userInfo.CompletedModules;
+                                ArrayList<Module> arrayList;
+                                if(userInfo.completedModules != null) {
+                                    arrayList = userInfo.completedModules;
+                                }else{
+                                    arrayList = new ArrayList<>();
+                                }
                                 arrayList.add(module);
                                 userInfo.setCompletedModules(arrayList);
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
