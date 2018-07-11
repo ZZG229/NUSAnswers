@@ -9,6 +9,14 @@ public class UserInfo {
     ArrayList<Module> currentEnrolledModules;
     ArrayList<Module> completedModules;
 
+    public UserInfo(){
+        this.userId = "";
+        this.username = "";
+        this.program = "";
+        this.currentEnrolledModules = new ArrayList<>();
+        this.completedModules = new ArrayList<>();
+    }
+
     public UserInfo(String userId, String username) {
         this.userId = userId;
         this.username = username;
