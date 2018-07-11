@@ -89,7 +89,7 @@
             android:layout_marginTop="128dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/SearchForMod"
+            android:hint="@string/SearchForMod"
             android:textSize="12sp"
             tools:ignore="LabelFor" />
 
