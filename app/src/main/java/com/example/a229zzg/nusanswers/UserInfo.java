@@ -9,16 +9,12 @@ public class UserInfo {
     ArrayList<Module> currentEnrolledModules;
     ArrayList<Module> completedModules;
 
-    public UserInfo(){
-
-    }
-
     public UserInfo(String userId, String username) {
         this.userId = userId;
         this.username = username;
-        this.program = null;
-        this.completedModules = null;
-        this.currentEnrolledModules = null;
+        this.program = "";
+        this.currentEnrolledModules = new ArrayList<>();
+        this.completedModules = new ArrayList<>();
     }
 
     public void setProgram(String program) {
