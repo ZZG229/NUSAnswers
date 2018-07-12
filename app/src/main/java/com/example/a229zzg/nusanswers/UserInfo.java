@@ -9,10 +9,6 @@ public class UserInfo {
     private ArrayList<Module> currentEnrolledModules;
     private ArrayList<Module> completedModules;
 
-    public UserInfo() {
-
-    }
-
     public UserInfo(){
         this.userId = "";
         this.username = "";
