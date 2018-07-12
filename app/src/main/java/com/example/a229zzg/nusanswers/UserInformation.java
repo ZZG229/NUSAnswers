@@ -75,6 +75,7 @@ public class UserInformation extends AppCompatActivity {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
                                 userInfo.setProgram(parent.getItemAtPosition(position).toString());
+                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
                                 Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString()+ " has been saved",Toast.LENGTH_SHORT).show();
                                 break;
@@ -129,10 +130,9 @@ public class UserInformation extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserInfo userInfo = null;
-                        Map<String, Object> userInfoMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                        for (String string : userInfoMap.keySet()) {
-                            if (string.equals(firebaseAuth.getCurrentUser().getUid())) {
-                                userInfo = (UserInfo) userInfoMap.get(string);
+                        for(DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            if (dsp.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
+                                userInfo = dsp.getValue(UserInfo.class);
                                 ArrayList<Module> arrayList;
                                 if (userInfo.getCompletedModules() != null) {
                                     arrayList = userInfo.getCompletedModules();
