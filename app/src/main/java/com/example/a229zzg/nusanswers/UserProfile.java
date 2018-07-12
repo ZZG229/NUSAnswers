@@ -3,6 +3,7 @@ package com.example.a229zzg.nusanswers;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,8 +18,11 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -63,7 +67,6 @@ public class UserProfile extends AppCompatActivity {
         });
 
         final ImageView userProfilePicture = findViewById(R.id.pp_user_picture);
-        TextView userName = findViewById(R.id.pp_user_name);
         if (firebaseUser != null) {
             String id = mAuth.getCurrentUser().getUid();
             storageReference.child(id).child("Images/Profile Picture").
@@ -75,10 +78,22 @@ public class UserProfile extends AppCompatActivity {
                             transform(new RoundTransformation(radius,margin)).into(userProfilePicture);
                 }
             });
+            DatabaseReference ref = databaseReference.child(id);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    TextView userName = findViewById(R.id.pp_user_name);
+                    if (dataSnapshot.hasChild("username")) {
+                        String displayName = (String) dataSnapshot.child("username").getValue();
+                        userName.setText(displayName);
+                    }
+                }
 
-            if (firebaseUser.getDisplayName() != null) {
-                userName.setText(firebaseUser.getDisplayName());
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 }

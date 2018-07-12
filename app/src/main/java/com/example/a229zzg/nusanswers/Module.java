@@ -4,6 +4,10 @@ public class Module {
     private String Code;
     private String Description;
 
+    public Module () {
+
+    }
+
     public Module(String code,String description){
         this.Code = code;
         this.Description = description;

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bench"
+    android:scaleType="centerCrop"
     android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context=".MainActivity">
 
@@ -92,15 +93,15 @@
         android:typeface="serif"
         />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="97dp"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/opaque_view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
-        android:text="@string/developed_by"
-        android:textColor="#000000" />
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom"
+        android:background="#82ffffff"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/textView3"
@@ -110,6 +111,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-32dp"
         android:text="@string/Travis_and_zegang"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="97dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:text="@string/developed_by"
         android:textColor="#000000" />
 
     <Button

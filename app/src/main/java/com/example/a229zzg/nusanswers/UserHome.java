@@ -164,7 +164,6 @@ public class UserHome extends AppCompatActivity
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 final ImageView userPicture = findViewById(R.id.nav_profile_picture);
-                TextView userName = findViewById(R.id.nav_user_name);
                 if (firebaseUser != null) {
                     String id = firebaseUser.getUid();
                     storageReference.child(id).child("Images/Profile Picture").
@@ -177,9 +176,22 @@ public class UserHome extends AppCompatActivity
                         }
                     });
 
-                    if (firebaseUser.getDisplayName() != null) {
-                        userName.setText(firebaseUser.getDisplayName());
-                    }
+                    DatabaseReference ref = databaseReference.child(id);
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            TextView userName = findViewById(R.id.nav_user_name);
+                            if (dataSnapshot.hasChild("username")) {
+                                String displayName = (String) dataSnapshot.child("username").getValue();
+                                userName.setText(displayName);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
         };
