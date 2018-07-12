@@ -21,7 +21,9 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".Signup2Activity" />
         <activity android:name=".signup3Activity" />
-        <activity android:name=".UserInformation" />
+        <activity
+            android:name=".UserInformation"
+            android:exported="true" />
         <activity android:name=".About" />
         <activity
             android:name=".UserHome"
