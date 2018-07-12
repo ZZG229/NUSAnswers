@@ -2,12 +2,16 @@ package com.example.a229zzg.nusanswers;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,12 +32,31 @@ public class Bookmarks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
+        // Collapsing toolbar on change
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                TextView title = findViewById(R.id.bookmark_title);
+                if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0)
+                {
+                    // Collapsed
+                    title.setPadding(0, 0, 0, 40);
+                }
+                else
+                {
+                    // Expanded
+                    title.setPadding(0, 0, 0, 0);
+                }
+            }
+        });
 
         final ImageView userProfilePicture = findViewById(R.id.bookmark_user_picture);
         if (firebaseUser != null) {

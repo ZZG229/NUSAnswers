@@ -245,7 +245,7 @@ public class UserHome extends AppCompatActivity
         if (id == R.id.nav_profile) {
             startActivity(new Intent(this, UserProfile.class));
         } else if (id == R.id.nav_bookmarks) {
-
+            startActivity(new Intent(this, Bookmarks.class));
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, About.class));
         } else if (id == R.id.nav_logout) {

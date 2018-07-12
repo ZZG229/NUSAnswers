@@ -55,12 +55,12 @@ public class UserProfile extends AppCompatActivity {
                 Button button = findViewById(R.id.edit_profile_button);
                 if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0)
                 {
-                    //  Collapsed
+                    // Collapsed
                     button.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
-                    //Expanded
+                    // Expanded
                     button.setVisibility(View.VISIBLE);
                 }
             }

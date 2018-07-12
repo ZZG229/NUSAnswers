@@ -46,7 +46,15 @@
         <activity
             android:name=".Bookmarks"
             android:label="@string/title_activity_bookmarks"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:exported="true"
+            android:parentActivityName=".UserHome" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserHome" />
+        </activity>
     </application>
 
 </manifest>
