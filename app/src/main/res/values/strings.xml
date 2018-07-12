@@ -225,4 +225,5 @@
 
     <!-- Strings for Navigation Drawer -->
     <string name="bookmarks_title">Bookmarks</string>
+    <string name="feature_not_implemented">Sorry :(\nWe are still working on this feature at the moment!</string>
 </resources>

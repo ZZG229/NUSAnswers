@@ -29,8 +29,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -117,13 +120,26 @@ public class Signup2Activity extends AppCompatActivity {
                 }
             });
 
-            if (firebaseUser.getDisplayName() != null) {
-                editText.setText(firebaseUser.getDisplayName());
-            }
+            DatabaseReference ref = databaseReference.child(id);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    TextView userName = findViewById(R.id.UserName);
+                    if (dataSnapshot.hasChild("username")) {
+                        String displayName = (String) dataSnapshot.child("username").getValue();
+                        userName.setText(displayName);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
             if (firebaseUser.isEmailVerified()){
                 textView.setText(getResources().getString(R.string.email_verified));
-            }else {
+            } else {
                 textView.setText(getResources().getString(R.string.email_not_verified));
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
