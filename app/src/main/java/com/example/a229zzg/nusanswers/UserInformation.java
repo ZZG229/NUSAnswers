@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,26 +129,27 @@ public class UserInformation extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserInfo userInfo = null;
-                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
-                                userInfo = dataSnapshot1.getValue(UserInfo.class);
+                        Map<String, Object> userInfoMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                        for (String string : userInfoMap.keySet()) {
+                            if (string.equals(firebaseAuth.getCurrentUser().getUid())) {
+                                userInfo = (UserInfo) userInfoMap.get(string);
                                 ArrayList<Module> arrayList;
                                 if (userInfo.getCompletedModules() != null) {
                                     arrayList = userInfo.getCompletedModules();
-                                }else{
+                                } else {
                                     arrayList = new ArrayList<>();
                                 }
                                 arrayList.add(module);
                                 userInfo.setCompletedModules(arrayList);
-                                Toast.makeText(getApplicationContext(),module.getCode()+ " has been saved",Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
                         if (userInfo != null) {
+                            databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                             databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                            Toast.makeText(getApplicationContext(), module.getCode() + " has been saved", Toast.LENGTH_SHORT).show();
                         }
                     }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -159,6 +161,7 @@ public class UserInformation extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     protected void onStart() {
