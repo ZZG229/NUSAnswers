@@ -127,23 +127,25 @@ public class UserInformation extends AppCompatActivity {
                 databaseReference2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                        UserInfo userInfo = null;
+                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
-                                UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
+                                userInfo = dataSnapshot1.getValue(UserInfo.class);
                                 ArrayList<Module> arrayList;
-                                if(userInfo.completedModules != null) {
-                                    arrayList = userInfo.completedModules;
+                                if (userInfo.getCompletedModules() != null) {
+                                    arrayList = userInfo.getCompletedModules();
                                 }else{
                                     arrayList = new ArrayList<>();
                                 }
                                 arrayList.add(module);
                                 userInfo.setCompletedModules(arrayList);
-                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
                                 Toast.makeText(getApplicationContext(),module.getCode()+ " has been saved",Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
-
+                        if (userInfo != null) {
+                            databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                        }
                     }
 
 
