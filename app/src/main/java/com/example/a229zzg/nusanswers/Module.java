@@ -1,23 +1,23 @@
 package com.example.a229zzg.nusanswers;
 
 public class Module {
-    private String Code;
-    private String Description;
+    private String code;
+    private String description;
 
     public Module() {
 
     }
 
     public Module(String code,String description){
-        this.Code = code;
-        this.Description = description;
+        this.code = code;
+        this.description = description;
     }
 
     public String getCode() {
-        return Code;
+        return code;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 }

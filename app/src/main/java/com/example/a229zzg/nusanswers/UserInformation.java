@@ -41,7 +41,7 @@ public class UserInformation extends AppCompatActivity {
     ListView listViewForCurrently;
     EditText editTextForCompleted;
     EditText editTextForCurrently;
-    List<Module> Modules;
+    List<Module> modules;
     ArrayAdapter<Module> adapter;
 
     @Override
@@ -56,8 +56,8 @@ public class UserInformation extends AppCompatActivity {
         //listViewForCurrently = findViewById(R.id.listViewForCurrently);
         editTextForCompleted = findViewById(R.id.SearchForCompleted);
         //editTextForCurrently = findViewById(R.id.SearchForCurrently);
-        Modules = new ArrayList<>();
-        adapter = new ModuleList(UserInformation.this,Modules);
+        modules = new ArrayList<>();
+        adapter = new ModuleList(UserInformation.this, modules);
         firebaseAuth = FirebaseAuth.getInstance();
 
 
@@ -68,10 +68,10 @@ public class UserInformation extends AppCompatActivity {
         spinnerForProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
-                databaseReference2.addValueEventListener(new ValueEventListener() {
+                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
+                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
                                 userInfo.setProgram(parent.getItemAtPosition(position).toString());
@@ -125,8 +125,8 @@ public class UserInformation extends AppCompatActivity {
         listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Module module = Modules.get(position);
-                databaseReference2.addValueEventListener(new ValueEventListener() {
+                final Module module = modules.get(position);
+                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserInfo userInfo = null;
@@ -170,14 +170,14 @@ public class UserInformation extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Modules.clear();
+                modules.clear();
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                     String ModuleCode = dataSnapshot1.getKey();
                     String ModuleDescription = dataSnapshot1.getValue(String.class);
                     Module module = new Module(ModuleCode,ModuleDescription);
-                    Modules.add(module);
+                    modules.add(module);
                 }
-                adapter = new ModuleList(UserInformation.this,Modules);
+                adapter = new ModuleList(UserInformation.this, modules);
                 listViewForCompleted.setAdapter(adapter);
             }
 
@@ -189,11 +189,11 @@ public class UserInformation extends AppCompatActivity {
     }
 
     public void searchItem(String s){
-        for(Module module:Modules){
+        for(Module module: modules){
             if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
-                Modules.remove(module);
-            }else if(module.getCode().toLowerCase().contains(s) && !Modules.contains(module)){
-                Modules.add(module);
+                modules.remove(module);
+            }else if(module.getCode().toLowerCase().contains(s) && !modules.contains(module)){
+                modules.add(module);
             }
         }
         adapter.notifyDataSetChanged();
@@ -203,14 +203,14 @@ public class UserInformation extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Modules.clear();
+                modules.clear();
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                     String ModuleCode = dataSnapshot1.getKey();
                     String ModuleDescription = dataSnapshot1.getValue(String.class);
                     Module module = new Module(ModuleCode,ModuleDescription);
-                    Modules.add(module);
+                    modules.add(module);
                 }
-                adapter = new ModuleList(UserInformation.this,Modules);
+                adapter = new ModuleList(UserInformation.this, modules);
                 listViewForCompleted.setAdapter(adapter);
             }
 
