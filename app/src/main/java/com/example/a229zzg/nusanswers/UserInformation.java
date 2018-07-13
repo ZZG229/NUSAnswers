@@ -126,30 +126,25 @@ public class UserInformation extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Module module = Modules.get(position);
-                databaseReference2.addValueEventListener(new ValueEventListener() {
+                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserInfo userInfo = null;
-                        for(DataSnapshot dsp : dataSnapshot.getChildren()) {
-                            if (dsp.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
-                                userInfo = dsp.getValue(UserInfo.class);
-                                ArrayList<Module> arrayList;
-                                if (userInfo.getCompletedModules() != null) {
-                                    arrayList = userInfo.getCompletedModules();
-                                } else {
-                                    arrayList = new ArrayList<>();
-                                }
-                                arrayList.add(module);
-                                userInfo.setCompletedModules(arrayList);
-                                break;
-                            }
+                        ArrayList<Module> arrayList;
+                        userInfo = dataSnapshot.getValue(UserInfo.class);
+                        if (userInfo.getCompletedModules() != null) {
+                            arrayList = userInfo.getCompletedModules();
+                        } else {
+                            arrayList = new ArrayList<>();
                         }
-                        if (userInfo != null) {
+                        arrayList.add(module);
+                        userInfo.setCompletedModules(arrayList);
+
                             databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                             databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
                             Toast.makeText(getApplicationContext(), module.getCode() + " has been saved", Toast.LENGTH_SHORT).show();
-                        }
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
