@@ -72,7 +72,7 @@
 
     <Spinner
         android:id="@+id/SpinnerProgram"
-        android:layout_width="348dp"
+        android:layout_width="254dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView4"
@@ -100,5 +100,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="175dp" />
+
+    <Button
+        android:id="@+id/buttonToSaveProgram"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:textSize="15dp"
+        android:typeface="serif"
+        android:layout_alignEnd="@+id/SearchForCompleted"
+        android:layout_below="@+id/textView15"
+        android:layout_marginTop="10dp"
+        android:background="#F2A968"
+        android:text="@string/save" />
 
 </RelativeLayout>
