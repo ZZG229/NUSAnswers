@@ -43,12 +43,14 @@ public class UserInformation extends AppCompatActivity {
     EditText editTextForCompleted;
     EditText editTextForCurrently;
     ArrayList<Module> modules = new ArrayList<>();
-    ModuleList2 adapter;
+    //ModuleList2 adapter;
+    ModuleList adapter;
     //ArrayAdapter<Module> adapter;
     Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    /*
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
 
@@ -59,7 +61,6 @@ public class UserInformation extends AppCompatActivity {
         //listViewForCurrently = findViewById(R.id.listViewForCurrently);
         editTextForCompleted = findViewById(R.id.SearchForCompleted);
         //editTextForCurrently = findViewById(R.id.SearchForCurrently);
-        modules = new ArrayList<>();
         button.findViewById(R.id.buttonToSaveProgram);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -121,9 +122,6 @@ public class UserInformation extends AppCompatActivity {
             }
         });
 
-
-
-
         listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -162,16 +160,15 @@ public class UserInformation extends AppCompatActivity {
 
     }
 
-
     public void initialList() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modules.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    String ModuleCode = dataSnapshot1.getKey();
-                    String ModuleDescription = dataSnapshot1.getValue(String.class);
-                    Module module = new Module(ModuleCode, ModuleDescription);
+                    String moduleCode = dataSnapshot1.getKey();
+                    String moduleDescription = dataSnapshot1.getValue(String.class);
+                    Module module = new Module(moduleCode, moduleDescription);
                     modules.add(module);
                 }
             }
@@ -182,6 +179,180 @@ public class UserInformation extends AppCompatActivity {
             }
         });
     }
+    */
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_information);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("ListOfModules");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference().child("UserInfo");
+
+        listViewForCompleted = findViewById(R.id.listViewForCompleted);
+        //listViewForCurrently = findViewById(R.id.listViewForCurrently);
+        editTextForCompleted = findViewById(R.id.SearchForCompleted);
+        //editTextForCurrently = findViewById(R.id.SearchForCurrently);
+        modules = new ArrayList<>();
+        adapter = new ModuleList(UserInformation.this, modules);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
+        Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
+        final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this,R.array.Programmes,android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerForProgram.setAdapter(arrayAdapter);
+        spinnerForProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
+                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
+                                UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
+                                userInfo.setProgram(parent.getItemAtPosition(position).toString());
+                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
+                                databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                                Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString()+ " has been saved",Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                //Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+" selected",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        initialList();
+        editTextForCompleted.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().equals("")){
+                    initialList();
+                }else {
+                    searchItem(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+        });
+
+        listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Module module = modules.get(position);
+                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserInfo userInfo = null;
+                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            if (dsp.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
+                                userInfo = dsp.getValue(UserInfo.class);
+                                ArrayList<Module> arrayList;
+                                if (userInfo.getCompletedModules() != null) {
+                                    arrayList = userInfo.getCompletedModules();
+                                } else {
+                                    arrayList = new ArrayList<>();
+                                }
+                                arrayList.add(module);
+                                userInfo.setCompletedModules(arrayList);
+                                break;
+                            }
+                        }
+                        if (userInfo != null) {
+                            databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
+                            databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
+                            Toast.makeText(getApplicationContext(), module.getCode() + " has been saved", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                modules.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String ModuleCode = dataSnapshot1.getKey();
+                    String ModuleDescription = dataSnapshot1.getValue(String.class);
+                    Module module = new Module(ModuleCode,ModuleDescription);
+                    modules.add(module);
+                }
+                adapter = new ModuleList(UserInformation.this, modules);
+                listViewForCompleted.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void searchItem(String s){
+        for(Module module: modules){
+            if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
+                modules.remove(module);
+            }else if(module.getCode().toLowerCase().contains(s) && !modules.contains(module)){
+                modules.add(module);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+    public void initialList(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                modules.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String ModuleCode = dataSnapshot1.getKey();
+                    String ModuleDescription = dataSnapshot1.getValue(String.class);
+                    Module module = new Module(ModuleCode,ModuleDescription);
+                    modules.add(module);
+                }
+                adapter = new ModuleList(UserInformation.this, modules);
+                listViewForCompleted.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
