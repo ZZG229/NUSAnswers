@@ -193,42 +193,38 @@ public class UserInformation extends AppCompatActivity {
         modules = new ArrayList<>();
         adapter = new ModuleList(UserInformation.this, modules);
         firebaseAuth = FirebaseAuth.getInstance();
+        button.findViewById(R.id.buttonToSaveProgram);
 
 
-        Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
-        final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this,R.array.Programmes,android.R.layout.simple_spinner_item);
+        final Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
+        final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, R.array.Programmes, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerForProgram.setAdapter(arrayAdapter);
-        spinnerForProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
+            public void onClick(View v) {
                 databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            if(dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())){
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            if (dataSnapshot1.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
                                 UserInfo userInfo = dataSnapshot1.getValue(UserInfo.class);
-                                userInfo.setProgram(parent.getItemAtPosition(position).toString());
+                                userInfo.setProgram(spinnerForProgram.getSelectedItem().toString());
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
-                                Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString()+ " has been saved",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), spinnerForProgram.getSelectedItem().toString() + " has been saved", Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
 
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-
-                //Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+" selected",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -241,9 +237,9 @@ public class UserInformation extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().equals("")){
+                if (s.toString().equals("")) {
                     initialList();
-                }else {
+                } else {
                     searchItem(s.toString());
                 }
 
@@ -297,51 +293,27 @@ public class UserInformation extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                modules.clear();
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                    String ModuleCode = dataSnapshot1.getKey();
-                    String ModuleDescription = dataSnapshot1.getValue(String.class);
-                    Module module = new Module(ModuleCode,ModuleDescription);
-                    modules.add(module);
-                }
-                adapter = new ModuleList(UserInformation.this, modules);
-                listViewForCompleted.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void searchItem(String s){
-        for(Module module: modules){
+    public void searchItem(String s) {
+        for (Module module : modules) {
             if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
                 modules.remove(module);
-            }else if(module.getCode().toLowerCase().contains(s) && !modules.contains(module)){
+            } else if (module.getCode().toLowerCase().contains(s) && !modules.contains(module)) {
                 modules.add(module);
             }
         }
         adapter.notifyDataSetChanged();
     }
-    public void initialList(){
+
+    public void initialList() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 modules.clear();
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     String ModuleCode = dataSnapshot1.getKey();
                     String ModuleDescription = dataSnapshot1.getValue(String.class);
-                    Module module = new Module(ModuleCode,ModuleDescription);
+                    Module module = new Module(ModuleCode, ModuleDescription);
                     modules.add(module);
                 }
                 adapter = new ModuleList(UserInformation.this, modules);
