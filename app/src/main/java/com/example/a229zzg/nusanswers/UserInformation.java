@@ -43,7 +43,6 @@ public class UserInformation extends AppCompatActivity {
     EditText editTextForCompleted;
     EditText editTextForCurrently;
     ArrayList<Module> modules = new ArrayList<>();
-    //ModuleList2 adapter;
     ModuleList adapter;
     //ArrayAdapter<Module> adapter;
     Button button;
@@ -193,8 +192,7 @@ public class UserInformation extends AppCompatActivity {
         modules = new ArrayList<>();
         adapter = new ModuleList(UserInformation.this, modules);
         firebaseAuth = FirebaseAuth.getInstance();
-        button.findViewById(R.id.buttonToSaveProgram);
-
+        button = findViewById(R.id.buttonToSaveProgram);
 
         final Spinner spinnerForProgram = findViewById(R.id.SpinnerProgram);
         final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, R.array.Programmes, android.R.layout.simple_spinner_item);
@@ -213,19 +211,21 @@ public class UserInformation extends AppCompatActivity {
                                 userInfo.setProgram(spinnerForProgram.getSelectedItem().toString());
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                                 databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
-                                Toast.makeText(getApplicationContext(), spinnerForProgram.getSelectedItem().toString() + " has been saved", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),spinnerForProgram.getSelectedItem().toString()+ " has been saved",Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
 
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
+
+                //Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+" selected",Toast.LENGTH_LONG).show();
             }
+
         });
 
 
@@ -292,28 +292,19 @@ public class UserInformation extends AppCompatActivity {
 
     }
 
-
-    public void searchItem(String s) {
-        for (Module module : modules) {
-            if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
-                modules.remove(module);
-            } else if (module.getCode().toLowerCase().contains(s) && !modules.contains(module)) {
-                modules.add(module);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    public void initialList() {
+/*
+    @Override
+    protected void onStart() {
+        super.onStart();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 modules.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                     String ModuleCode = dataSnapshot1.getKey();
                     String ModuleDescription = dataSnapshot1.getValue(String.class);
-                    Module module = new Module(ModuleCode, ModuleDescription);
+                    Module module = new Module(ModuleCode,ModuleDescription);
                     modules.add(module);
                 }
                 adapter = new ModuleList(UserInformation.this, modules);
@@ -326,5 +317,39 @@ public class UserInformation extends AppCompatActivity {
             }
         });
     }
+*/
+    public void searchItem(String s){
+        for (Module module: modules) {
+            if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
+                modules.remove(module);
+            } else if (module.getCode().toLowerCase().contains(s) && !modules.contains(module)) {
+                modules.add(module);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+    public void initialList(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                modules.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String moduleCode = dataSnapshot1.getKey();
+                    String moduleDescription = dataSnapshot1.getValue(String.class);
+                    Module module = new Module(moduleCode, moduleDescription);
+                    modules.add(module);
+                }
+                adapter = new ModuleList(UserInformation.this, modules);
+                listViewForCompleted.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 }
