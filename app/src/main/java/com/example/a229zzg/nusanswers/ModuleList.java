@@ -28,15 +28,15 @@ public class ModuleList extends ArrayAdapter<Module> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View ListViewItem = inflater.inflate(R.layout.list_layout,null,true);
+        View listViewItem = inflater.inflate(R.layout.list_layout,null,true);
 
-        TextView textViewCode = ListViewItem.findViewById(R.id.Code);
-        TextView textViewDescription = ListViewItem.findViewById(R.id.Description);
+        TextView textViewCode = listViewItem.findViewById(R.id.Code);
+        TextView textViewDescription = listViewItem.findViewById(R.id.Description);
 
         Module module = moduleList.get(position);
         textViewCode.setText(module.getCode());
         textViewDescription.setText(module.getDescription());
 
-        return ListViewItem;
+        return listViewItem;
     }
 }

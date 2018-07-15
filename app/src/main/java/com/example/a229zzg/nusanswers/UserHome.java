@@ -202,6 +202,16 @@ public class UserHome extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
