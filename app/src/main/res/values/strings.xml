@@ -129,6 +129,7 @@
     <string name="nav_about">About</string>
     <string name="nav_logout">Log out</string>
     <string name="not_enrolled">Opps! o.o\nIt looks like you have not enrolled in any modules yet!</string>
+    <string name="no_past">Opps! o.o\nIt looks like you did not want us to find out your past hahaha.</string>
 
     <!-- Strings for User Profile -->
     <string name="title_activity_user_profile">UserProfile</string>

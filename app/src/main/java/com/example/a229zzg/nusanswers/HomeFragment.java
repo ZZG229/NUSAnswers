@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
     DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
     final FirebaseUser firebaseUser = mAuth.getCurrentUser();
     List<Module> modules = new ArrayList<>();
+
     public HomeFragment() {
         // Required empty public constructor
     }
