@@ -1,6 +1,8 @@
 package com.example.a229zzg.nusanswers;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -153,8 +156,8 @@ public class UserHome extends AppCompatActivity
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -194,6 +197,39 @@ public class UserHome extends AppCompatActivity
                 }
             }
         };
+        // Loading user profile picture into hamburger icon
+        final ImageView userProfilePicture = findViewById(R.id.user_hamburger);
+        if (firebaseUser != null) {
+            String id = mAuth.getCurrentUser().getUid();
+            storageReference.child(id).child("Images/Profile Picture").
+                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit().centerCrop().
+                            transform(new RoundTransformation(50, 5)).into(userProfilePicture, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Drawable image = userProfilePicture.getDrawable();
+                                    toggle.setDrawerIndicatorEnabled(false);
+                                    toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            drawer.openDrawer(GravityCompat.START);
+                                        }
+                                    });
+                                    toggle.setHomeAsUpIndicator(image);
+                                    userProfilePicture.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+
+                                }
+                    });
+                }
+            });
+        }
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
