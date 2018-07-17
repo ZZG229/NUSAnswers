@@ -6,8 +6,8 @@ public class UserInfo {
     private String userId;
     private String username;
     private String program;
-    private ArrayList<Module> currentEnrolledModules;
-    private ArrayList<Module> completedModules;
+    private ArrayList<String> currentEnrolledModules;
+    private ArrayList<String> completedModules;
 
     public UserInfo(){
         this.userId = "";
@@ -34,19 +34,19 @@ public class UserInfo {
     public String getProgram() {
         return this.program;
     }
-    public void setCurrentEnrolledModules(ArrayList<Module> currentEnrolledModules) {
+    public void setCurrentEnrolledModules(ArrayList<String> currentEnrolledModules) {
         this.currentEnrolledModules = currentEnrolledModules;
     }
 
-    public ArrayList<Module> getCurrentEnrolledModules() {
+    public ArrayList<String> getCurrentEnrolledModules() {
         return this.currentEnrolledModules;
     }
 
-    public void setCompletedModules(ArrayList<Module> completedModules) {
+    public void setCompletedModules(ArrayList<String> completedModules) {
         this.completedModules = completedModules;
     }
 
-    public ArrayList<Module> getCompletedModules() {
+    public ArrayList<String> getCompletedModules() {
         return this.completedModules;
     }
 }

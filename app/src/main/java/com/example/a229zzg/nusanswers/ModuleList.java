@@ -8,20 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class ModuleList extends ArrayAdapter<Module> {
+public class ModuleList extends ArrayAdapter<String> {
     private Activity context;
-    private List<Module> moduleList;
+    private List<String> moduleList;
 
-    public ModuleList(Activity context, List<Module> moduleList) {
+    public ModuleList(Activity context, List<String> moduleList) {
         super(context,R.layout.list_layout,moduleList);
         this.context = context;
         this.moduleList = moduleList;
     }
+
 
     @NonNull
     @Override
@@ -31,11 +33,9 @@ public class ModuleList extends ArrayAdapter<Module> {
         View listViewItem = inflater.inflate(R.layout.list_layout,null,true);
 
         TextView textViewCode = listViewItem.findViewById(R.id.Code);
-        TextView textViewDescription = listViewItem.findViewById(R.id.Description);
 
-        Module module = moduleList.get(position);
-        textViewCode.setText(module.getCode());
-        textViewDescription.setText(module.getDescription());
+        String module = moduleList.get(position);
+        textViewCode.setText(module);
 
         return listViewItem;
     }

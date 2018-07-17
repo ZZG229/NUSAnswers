@@ -42,8 +42,8 @@ public class UserInformation extends AppCompatActivity {
     //ListView listViewForCurrently;
     EditText editTextForCompleted;
     //EditText editTextForCurrently;
-    ArrayList<Module> modules;
-    ModuleList adapter;
+    ArrayList<String> modules;
+    ArrayAdapter<String> adapter;
     //ArrayAdapter<Module> adapter;
     Button button;
 
@@ -187,8 +187,26 @@ public class UserInformation extends AppCompatActivity {
         //listViewForCurrently = findViewById(R.id.listViewForCurrently);
         editTextForCompleted = findViewById(R.id.SearchForCompleted);
         //editTextForCurrently = findViewById(R.id.SearchForCurrently);
+
         modules = new ArrayList<>();
-        adapter = new ModuleList(UserInformation.this, modules);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserInformation.this.modules.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String moduleCode = dataSnapshot1.getKey();
+                    String moduleDescription = dataSnapshot1.getValue(String.class);
+                    String moduleAll = new String(moduleCode + " " + moduleDescription);
+                    UserInformation.this.modules.add(moduleAll);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         firebaseAuth = FirebaseAuth.getInstance();
         button = findViewById(R.id.buttonToSaveProgram);
 
@@ -226,10 +244,10 @@ public class UserInformation extends AppCompatActivity {
 
         });
 
-
-        initialList();
+        adapter = new ArrayAdapter<>(this,R.layout.list_layout,R.id.Code,modules);
         listViewForCompleted.setTextFilterEnabled(true);
         listViewForCompleted.setAdapter(adapter);
+
         editTextForCompleted.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -239,7 +257,6 @@ public class UserInformation extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 UserInformation.this.adapter.getFilter().filter(s);
                 UserInformation.this.adapter.notifyDataSetChanged();
-                listViewForCompleted.setAdapter(adapter);
             }
 
             @Override
@@ -252,7 +269,7 @@ public class UserInformation extends AppCompatActivity {
         listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Module module = modules.get(position);
+                final String module = modules.get(position);
                 databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -260,7 +277,7 @@ public class UserInformation extends AppCompatActivity {
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             if (dsp.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
                                 userInfo = dsp.getValue(UserInfo.class);
-                                ArrayList<Module> arrayList;
+                                ArrayList<String> arrayList;
                                 if (userInfo.getCompletedModules() != null) {
                                     arrayList = userInfo.getCompletedModules();
                                 } else {
@@ -274,7 +291,7 @@ public class UserInformation extends AppCompatActivity {
                         if (userInfo != null) {
                             databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).removeValue();
                             databaseReference2.child(firebaseAuth.getCurrentUser().getUid()).setValue(userInfo);
-                            Toast.makeText(getApplicationContext(), module.getCode() + " has been saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), module + " has been saved", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -315,38 +332,5 @@ public class UserInformation extends AppCompatActivity {
         });
     }
 */
-    public void searchItem(String s){
-        for (Module module: modules) {
-            if (!module.getCode().toLowerCase().contains(s.toLowerCase())) {
-                modules.remove(module);
-            } else if (module.getCode().toLowerCase().contains(s) && !modules.contains(module)) {
-                modules.add(module);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-    public void initialList(){
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                modules.clear();
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                    String moduleCode = dataSnapshot1.getKey();
-                    String moduleDescription = dataSnapshot1.getValue(String.class);
-                    Module module = new Module(moduleCode, moduleDescription);
-                    modules.add(module);
-                }
-                adapter = new ModuleList(UserInformation.this, modules);
-                listViewForCompleted.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 
 }
