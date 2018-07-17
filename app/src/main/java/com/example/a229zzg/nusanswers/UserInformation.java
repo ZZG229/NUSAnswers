@@ -39,10 +39,10 @@ public class UserInformation extends AppCompatActivity {
     DatabaseReference databaseReference2;
     FirebaseAuth firebaseAuth;
     ListView listViewForCompleted;
-    ListView listViewForCurrently;
+    //ListView listViewForCurrently;
     EditText editTextForCompleted;
-    EditText editTextForCurrently;
-    ArrayList<Module> modules = new ArrayList<>();
+    //EditText editTextForCurrently;
+    ArrayList<Module> modules;
     ModuleList adapter;
     //ArrayAdapter<Module> adapter;
     Button button;
@@ -228,6 +228,8 @@ public class UserInformation extends AppCompatActivity {
 
 
         initialList();
+        listViewForCompleted.setTextFilterEnabled(true);
+        listViewForCompleted.setAdapter(adapter);
         editTextForCompleted.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -235,12 +237,8 @@ public class UserInformation extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().equals("")) {
-                    initialList();
-                } else {
-                    searchItem(s.toString());
-                }
-
+                UserInformation.this.adapter.getFilter().filter(s);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
