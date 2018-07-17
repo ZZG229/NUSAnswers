@@ -238,7 +238,8 @@ public class UserInformation extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 UserInformation.this.adapter.getFilter().filter(s);
-                adapter.notifyDataSetChanged();
+                UserInformation.this.adapter.notifyDataSetChanged();
+                listViewForCompleted.setAdapter(adapter);
             }
 
             @Override

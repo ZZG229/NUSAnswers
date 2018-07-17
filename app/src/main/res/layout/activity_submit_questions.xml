@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SubmitQuestions">
+
+    <TextView
+        android:id="@+id/textViewForModule"
+        android:layout_width="201dp"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="37dp"
+        android:background="#F2994A"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:typeface="serif" />
+
+    <TextView
+        android:id="@+id/textViewForAY"
+        android:layout_width="48dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="94dp"
+        android:background="#F2994A"
+        android:text="AY"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewForSem"
+        android:layout_width="48dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="149dp"
+        android:background="#F2994A"
+        android:text="SEM"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewForQuestionNumber"
+        android:layout_width="107dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="205dp"
+        android:background="#F2994A"
+        android:text="Question No"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ems="10"
+        android:hint="Enter the Question Number Here"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
