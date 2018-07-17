@@ -66,7 +66,7 @@ public class PastModulesFragment extends Fragment {
 
     public void initialList() {
         DatabaseReference ref = databaseReference.child(firebaseUser.getUid()).child("completedModules");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modules.clear();

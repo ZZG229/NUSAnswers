@@ -24,6 +24,7 @@
             android:id="@+id/user_hamburger"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:srcCompat="@drawable/circleprofile" />
 
         <android.support.design.widget.TabLayout
