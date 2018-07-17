@@ -4,7 +4,7 @@ public class Module {
     private String code;
     private String description;
 
-    public Module () {
+    public Module() {
 
     }
 

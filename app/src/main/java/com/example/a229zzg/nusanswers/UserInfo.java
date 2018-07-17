@@ -9,8 +9,12 @@ public class UserInfo {
     private ArrayList<Module> currentEnrolledModules;
     private ArrayList<Module> completedModules;
 
-    public UserInfo() {
-
+    public UserInfo(){
+        this.userId = "";
+        this.username = "";
+        this.program = "";
+        this.currentEnrolledModules = new ArrayList<>();
+        this.completedModules = new ArrayList<>();
     }
 
     public UserInfo(String userId, String username) {
@@ -46,6 +50,5 @@ public class UserInfo {
         return this.completedModules;
     }
 }
-
 
 
