@@ -196,7 +196,7 @@ public class UserInformation extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                     String moduleCode = dataSnapshot1.getKey();
                     String moduleDescription = dataSnapshot1.getValue(String.class);
-                    String moduleAll = new String(moduleCode + " " + moduleDescription);
+                    String moduleAll = moduleCode + " " + moduleDescription;
                     UserInformation.this.modules.add(moduleAll);
                 }
             }
