@@ -34,7 +34,7 @@ public class PastModulesFragment extends Fragment {
     private FirebaseDatabase mfirebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
     final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-    List<Module> modules = new ArrayList<>();
+    List<String> modules = new ArrayList<>();
 
     public PastModulesFragment() {
         // Required empty public constructor
@@ -71,7 +71,7 @@ public class PastModulesFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modules.clear();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    Module module = dsp.getValue(Module.class);
+                    String module = dsp.getValue(String.class);
                     modules.add(module);
                 }
 

@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     private FirebaseDatabase mfirebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
     final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-    List<Module> modules = new ArrayList<>();
+    List<String> modules = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -71,9 +71,7 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modules.clear();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String moduleCode = dsp.getKey();
-                    String moduleDescription = dsp.getValue(String.class);
-                    Module module = new Module(moduleCode, moduleDescription);
+                    String module = dsp.getValue(String.class);
                     modules.add(module);
                 }
 

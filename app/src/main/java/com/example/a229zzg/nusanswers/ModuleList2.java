@@ -53,7 +53,7 @@ public class ModuleList2 extends BaseAdapter{
             holder = new ViewHolder();
             convertView = layoutInflater.inflate(R.layout.list_layout,null,true);
             holder.textView = convertView.findViewById(R.id.Code);
-            holder.textView = convertView.findViewById(R.id.Description);
+            //holder.textView = convertView.findViewById(R.id.Description);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
