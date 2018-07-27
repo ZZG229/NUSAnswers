@@ -269,7 +269,9 @@ public class UserInformation extends AppCompatActivity {
         listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String module = modules.get(position);
+                final String module = listViewForCompleted.getItemAtPosition(position).toString();
+                //final String module = modules.get(position);
+
                 databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
