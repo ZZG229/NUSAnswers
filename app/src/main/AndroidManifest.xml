@@ -55,7 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserHome" />
         </activity>
-        <activity android:name=".SubmitQuestions"></activity>
+        <activity
+            android:name=".SubmitQuestions"
+            android:exported="true" />
     </application>
 
 </manifest>
