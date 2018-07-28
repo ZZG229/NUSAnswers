@@ -38,10 +38,8 @@ public class UserInformation extends AppCompatActivity {
     DatabaseReference databaseReference;
     DatabaseReference databaseReference2;
     FirebaseAuth firebaseAuth;
-    ListView listViewForCompleted;
-    //ListView listViewForCurrently;
-    EditText editTextForCompleted;
-    //EditText editTextForCurrently;
+    ListView listViewForCurrently;
+    EditText editTextForCurrently;
     ArrayList<String> modules;
     ArrayAdapter<String> adapter;
     //ArrayAdapter<Module> adapter;
@@ -183,10 +181,8 @@ public class UserInformation extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("ListOfModules");
         databaseReference2 = FirebaseDatabase.getInstance().getReference().child("UserInfo");
 
-        listViewForCompleted = findViewById(R.id.listViewForCompleted);
-        //listViewForCurrently = findViewById(R.id.listViewForCurrently);
-        editTextForCompleted = findViewById(R.id.SearchForCompleted);
-        //editTextForCurrently = findViewById(R.id.SearchForCurrently);
+        listViewForCurrently = findViewById(R.id.listViewForCurrent);
+        editTextForCurrently = findViewById(R.id.SearchForCurrent);
 
         modules = new ArrayList<>();
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -245,10 +241,10 @@ public class UserInformation extends AppCompatActivity {
         });
 
         adapter = new ArrayAdapter<>(this,R.layout.list_layout,R.id.Code,modules);
-        listViewForCompleted.setTextFilterEnabled(true);
-        listViewForCompleted.setAdapter(adapter);
+        listViewForCurrently.setTextFilterEnabled(true);
+        listViewForCurrently.setAdapter(adapter);
 
-        editTextForCompleted.addTextChangedListener(new TextWatcher() {
+        editTextForCurrently.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -266,10 +262,10 @@ public class UserInformation extends AppCompatActivity {
 
         });
 
-        listViewForCompleted.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewForCurrently.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String module = listViewForCompleted.getItemAtPosition(position).toString();
+                final String module = listViewForCurrently.getItemAtPosition(position).toString();
                 //final String module = modules.get(position);
 
                 databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {

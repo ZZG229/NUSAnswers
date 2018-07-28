@@ -81,7 +81,7 @@
 
 
     <EditText
-            android:id="@+id/SearchForCompleted"
+            android:id="@+id/SearchForCurrent"
             android:layout_width="349dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -94,7 +94,7 @@
             tools:ignore="LabelFor" />
 
     <ListView
-        android:id="@+id/listViewForCompleted"
+        android:id="@+id/listViewForCurrent"
         android:layout_width="349dp"
         android:layout_height="330dp"
         android:layout_alignParentTop="true"
@@ -107,7 +107,7 @@
         android:layout_height="38dp"
         android:textSize="15dp"
         android:typeface="serif"
-        android:layout_alignEnd="@+id/SearchForCompleted"
+        android:layout_alignEnd="@+id/SearchForCurrent"
         android:layout_below="@+id/textView15"
         android:layout_marginTop="10dp"
         android:background="#F2A968"
