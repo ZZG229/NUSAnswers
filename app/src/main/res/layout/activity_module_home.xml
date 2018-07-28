@@ -23,15 +23,33 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:theme="@style/AppTheme"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name"
-            app:titleTextColor="@android:color/black"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/home_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/home_icon" />
+
+            <TextView
+                android:id="@+id/module_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:tabTextColor="@android:color/black">
+            app:tabTextColor="@android:color/black"
+            app:tabSelectedTextColor="@color/colorPrimaryDark">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabMidTerms"
@@ -56,6 +74,7 @@
 
 
         </android.support.design.widget.TabLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
