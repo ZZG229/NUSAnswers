@@ -58,6 +58,8 @@
         <activity
             android:name=".SubmitQuestions"
             android:exported="true" />
+        <activity android:name=".SubmitAnswer" />
+        <activity android:name=".UploadCheatSheet"></activity>
     </application>
 
 </manifest>

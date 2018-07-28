@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadCheatSheet">
+
+    <TextView
+        android:id="@+id/textViewForModuleInCheatSheet"
+        android:layout_width="175dp"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="14dp"
+        android:background="#F2994A"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:text="TextView"/>
+
+    <TextView
+        android:id="@+id/textViewForAYInCheatSheet"
+        android:layout_width="59dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModuleInCheatSheet"
+        android:layout_marginTop="59dp"
+        android:background="#F2994A"
+        android:text="AY"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewForSemInCheatSheet"
+        android:layout_width="59dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModuleInCheatSheet"
+        android:layout_marginTop="104dp"
+        android:background="#F2994A"
+        android:text="SEM"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonForBackInCheatSheet"
+        android:layout_width="150dp"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textViewForModuleInCheatSheet"
+        android:layout_marginBottom="28dp"
+        android:background="#F2994A"
+        android:text="Back" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="72dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModuleInCheatSheet"
+        android:layout_marginTop="149dp"
+        android:background="#F2994A"
+        android:text="Image"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonForSaveQnInCheatSheet"
+        android:layout_width="150dp"
+        android:layout_height="37dp"
+        android:layout_alignEnd="@+id/imageViewForCheatSheet"
+        android:layout_alignTop="@+id/buttonForBackInCheatSheet"
+        android:background="#F2994A"
+        android:text="Save" />
+
+    <ImageView
+        android:id="@+id/imageViewForCheatSheet"
+        android:layout_width="357dp"
+        android:layout_height="260dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModuleInCheatSheet"
+        android:layout_marginTop="192dp"
+        android:background="#D7D7D7" />
+
+    <ImageButton
+        android:id="@+id/imageButtonInCheatSheet"
+        android:layout_width="33dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/textView18"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="95dp"
+        app:srcCompat="@drawable/attachment" />
+
+    <Spinner
+        android:id="@+id/spinnerForAYInCheatSheet"
+        android:layout_width="185dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/textViewForAYInCheatSheet"
+        android:layout_toEndOf="@+id/textView18" />
+
+    <Spinner
+        android:id="@+id/spinnerForSemInCheatSheet"
+        android:layout_width="185dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/textViewForSemInCheatSheet"
+        android:layout_toEndOf="@+id/textView18" />
+
+
+
+
+</RelativeLayout>
