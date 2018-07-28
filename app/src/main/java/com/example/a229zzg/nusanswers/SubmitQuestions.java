@@ -46,8 +46,9 @@ public class SubmitQuestions extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     StorageReference storageReference;
     Uri filePath;
-
-
+    String code;
+    String name;
+    Intent intent = getIntent();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,6 +79,7 @@ public class SubmitQuestions extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButtonForUploadQnPic);
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("UserContributions");
+        code = intent.getStringExtra("moduleCode");
 
         ArrayAdapter<CharSequence> arrayAdapterForSem = ArrayAdapter.createFromResource(this, R.array.Sem, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> arrayAdapterForAY = ArrayAdapter.createFromResource(this, R.array.AY, android.R.layout.simple_spinner_item);
@@ -103,7 +105,7 @@ public class SubmitQuestions extends AppCompatActivity {
                         spinnerForType.getSelectedItem().toString(), spinnerForAY.getSelectedItem().toString(),
                         spinnerForSem.getSelectedItem().toString(), firebaseAuth.getCurrentUser().getUid());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                firebaseDatabase.getReference().child("User Contribution").child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
+                firebaseDatabase.getReference().child("User Contribution").child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
                         .child("Content").setValue(question.getContent());
                 uploadFile();
             }

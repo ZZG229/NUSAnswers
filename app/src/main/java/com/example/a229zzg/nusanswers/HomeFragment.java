@@ -1,6 +1,7 @@
 package com.example.a229zzg.nusanswers;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,19 +54,29 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         FrameLayout myLayout = view.findViewById(R.id.home_frag_layout);
         TextView message = view.findViewById(R.id.not_enrolled_msg);
-        ListView enrolledModules = view.findViewById(R.id.user_enrolled_modules);
-        initialList();
-        if (modules.isEmpty()) {
-            myLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.ohno_background));
-            message.setVisibility(View.VISIBLE);
-            return;
-        }
+        final ListView enrolledModules = view.findViewById(R.id.user_enrolled_modules);
         ModuleList adapter = new ModuleList(getActivity(), modules);
         enrolledModules.setAdapter(adapter);
+        if (initialList() && modules.isEmpty()) {
+            myLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.ohno_background));
+            message.setVisibility(View.VISIBLE);
+        }
+
+        enrolledModules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String moduleFull = enrolledModules.getItemAtPosition(position).toString();
+                String module[] = moduleFull.split("\\n");
+                Intent intent = new Intent(getActivity(), ModuleHome.class);
+                intent.putExtra("moduleCode", module[0]);
+                intent.putExtra("moduleName", module[1]);
+                startActivity(intent);
+            }
+        });
 
     }
 
-    public void initialList() {
+    public boolean initialList() {
         DatabaseReference ref = databaseReference.child(firebaseUser.getUid()).child("currentEnrolledModules");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -74,7 +86,6 @@ public class HomeFragment extends Fragment {
                     String module = dsp.getValue(String.class);
                     modules.add(module);
                 }
-
             }
 
             @Override
@@ -82,5 +93,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        return true;
     }
 }

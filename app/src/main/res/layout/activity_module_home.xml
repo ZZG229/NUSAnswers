@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_anchor="@+id/appbar"
+        app:layout_anchorGravity="left|top">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,8 +24,8 @@
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:theme="@style/AppTheme"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/AppTheme">
 
             <ImageView
                 android:id="@+id/home_button"
@@ -48,8 +50,8 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:tabTextColor="@android:color/black"
-            app:tabSelectedTextColor="@color/colorPrimaryDark">
+            app:tabSelectedTextColor="@color/colorPrimaryDark"
+            app:tabTextColor="@android:color/black">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabMidTerms"
@@ -82,5 +84,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/submitQuestionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/edit_icon" />
 
 </android.support.design.widget.CoordinatorLayout>

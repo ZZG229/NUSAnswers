@@ -82,6 +82,14 @@ public class ModuleHome extends AppCompatActivity {
                 startActivity(new Intent(ModuleHome.this, UserHome.class));
             }
         });
+
+        FloatingActionButton fab = findViewById(R.id.submitQuestionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     /* Menu
