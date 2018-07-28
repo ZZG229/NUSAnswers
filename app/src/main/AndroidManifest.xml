@@ -58,6 +58,11 @@
         <activity
             android:name=".SubmitQuestions"
             android:exported="true" />
+        <activity
+            android:name=".ModuleHome"
+            android:label="@string/title_activity_module_home"
+            android:theme="@style/AppTheme"
+            android:exported="true" />
     </application>
 
 </manifest>
