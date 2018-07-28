@@ -276,13 +276,13 @@ public class UserInformation extends AppCompatActivity {
                             if (dsp.getKey().equals(firebaseAuth.getCurrentUser().getUid())) {
                                 userInfo = dsp.getValue(UserInfo.class);
                                 ArrayList<String> arrayList;
-                                if (userInfo.getCompletedModules() != null) {
-                                    arrayList = userInfo.getCompletedModules();
+                                if (userInfo.getCurrentEnrolledModules() != null) {
+                                    arrayList = userInfo.getCurrentEnrolledModules();
                                 } else {
                                     arrayList = new ArrayList<>();
                                 }
                                 arrayList.add(module);
-                                userInfo.setCompletedModules(arrayList);
+                                userInfo.setCurrentEnrolledModules(arrayList);
                                 break;
                             }
                         }

@@ -7,14 +7,14 @@ public class UserInfo {
     private String username;
     private String program;
     private ArrayList<String> currentEnrolledModules;
-    private ArrayList<String> completedModules;
+    //private ArrayList<String> completedModules;
 
     public UserInfo(){
         this.userId = "";
         this.username = "";
         this.program = "";
         this.currentEnrolledModules = new ArrayList<>();
-        this.completedModules = new ArrayList<>();
+        //this.completedModules = new ArrayList<>();
     }
 
     public UserInfo(String userId, String username) {
@@ -22,7 +22,7 @@ public class UserInfo {
         this.username = username;
         this.program = "";
         this.currentEnrolledModules = new ArrayList<>();
-        this.completedModules = new ArrayList<>();
+        //this.completedModules = new ArrayList<>();
     }
     public String getUsername() {
         return this.username;
@@ -34,6 +34,7 @@ public class UserInfo {
     public String getProgram() {
         return this.program;
     }
+
     public void setCurrentEnrolledModules(ArrayList<String> currentEnrolledModules) {
         this.currentEnrolledModules = currentEnrolledModules;
     }
@@ -42,13 +43,6 @@ public class UserInfo {
         return this.currentEnrolledModules;
     }
 
-    public void setCompletedModules(ArrayList<String> completedModules) {
-        this.completedModules = completedModules;
-    }
-
-    public ArrayList<String> getCompletedModules() {
-        return this.completedModules;
-    }
 }
 
 
