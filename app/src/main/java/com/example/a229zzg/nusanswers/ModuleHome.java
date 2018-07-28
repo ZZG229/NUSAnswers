@@ -156,6 +156,7 @@ public class ModuleHome extends AppCompatActivity {
             this.numOfTabs = numOfTabs;
         }
 
+        
         @Override
         public CharSequence getPageTitle(int position) {
             return titles[position];
