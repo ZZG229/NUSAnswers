@@ -65,11 +65,30 @@ public class ModuleHome extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        final FloatingActionButton fab = findViewById(R.id.submitQuestionButton);
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+                final int pos = tab.getPosition();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent questIntent;
+                        // upload cheat sheet has a different intent
+                        if (pos == 2) {
+                            questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
+                        } else {
+                            questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
+                        }
+                        if (intent != null) {
+                            String code = intent.getStringExtra("moduleCode");
+                            questIntent.putExtra("moduleCode", code);
+                        }
+                        startActivity(questIntent);
+                    }
+                });
             }
 
             @Override
@@ -91,18 +110,7 @@ public class ModuleHome extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.submitQuestionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
-                if (intent != null) {
-                    String code = intent.getStringExtra("moduleCode");
-                    questIntent.putExtra("moduleCode", code);
-                }
-                startActivity(questIntent);
-            }
-        });
+
     }
 
     /* Menu
