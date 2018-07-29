@@ -15,12 +15,12 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="14dp"
         android:background="#F2994A"
-        android:text="TextView"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="16dp"
         android:textStyle="bold"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:text="TextView"/>
 
     <TextView
         android:id="@+id/textViewForAY"
@@ -40,9 +40,9 @@
         android:id="@+id/textViewForSem"
         android:layout_width="48dp"
         android:layout_height="29dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textViewForAY"
-        android:layout_marginEnd="127dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="96dp"
         android:background="#F2994A"
         android:text="SEM"
         android:textAlignment="center"
@@ -56,7 +56,7 @@
         android:layout_height="29dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textViewForModule"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="179dp"
         android:background="#F2994A"
         android:text="Question No"
         android:textAlignment="center"
@@ -82,31 +82,29 @@
         android:layout_width="150dp"
         android:layout_height="37dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="21dp"
-        android:layout_marginStart="22dp"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginBottom="23dp"
         android:background="#F2994A"
         android:text="Back" />
 
     <Spinner
         android:id="@+id/spinnerForAY"
-        android:layout_width="124dp"
+        android:layout_width="203dp"
         android:layout_height="29dp"
         android:layout_alignTop="@+id/textViewForAY"
         android:layout_toEndOf="@+id/textView18" />
 
     <Spinner
         android:id="@+id/spinnerForSem"
-        android:layout_width="65dp"
+        android:layout_width="203dp"
         android:layout_height="29dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textViewForAY"
-        android:layout_marginEnd="40dp" />
+        android:layout_alignStart="@+id/spinnerForAY"
+        android:layout_alignTop="@+id/textViewForSem" />
 
     <EditText
         android:id="@+id/editTextForQuestionDescription"
         android:layout_width="357dp"
-        android:layout_height="240dp"
+        android:layout_height="204dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="126dp"
@@ -142,8 +140,8 @@
         android:id="@+id/buttonForSaveQn"
         android:layout_width="150dp"
         android:layout_height="37dp"
+        android:layout_alignEnd="@+id/editTextForEnterQnNum"
         android:layout_alignTop="@+id/buttonForBack"
-        android:layout_toEndOf="@+id/spinnerForAY"
         android:background="#F2994A"
         android:text="Save" />
 
@@ -153,7 +151,7 @@
         android:layout_height="29dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textViewForModule"
-        android:layout_marginTop="98dp"
+        android:layout_marginTop="138dp"
         android:background="#F2994A"
         android:text="Type"
         android:textAlignment="center"
@@ -163,10 +161,10 @@
 
     <Spinner
         android:id="@+id/spinnerForType"
-        android:layout_width="156dp"
+        android:layout_width="176dp"
         android:layout_height="29dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/textView19"
-        android:layout_marginEnd="126dp" />
+        android:layout_marginEnd="106dp" />
 
 </RelativeLayout>

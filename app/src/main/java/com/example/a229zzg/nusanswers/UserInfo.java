@@ -7,14 +7,14 @@ public class UserInfo {
     private String username;
     private String program;
     private ArrayList<String> currentEnrolledModules;
-    //private ArrayList<String> completedModules;
+    private ArrayList<String> completedModules;
 
     public UserInfo(){
         this.userId = "";
         this.username = "";
         this.program = "";
         this.currentEnrolledModules = new ArrayList<>();
-        //this.completedModules = new ArrayList<>();
+        this.completedModules = new ArrayList<>();
     }
 
     public UserInfo(String userId, String username) {
@@ -22,13 +22,21 @@ public class UserInfo {
         this.username = username;
         this.program = "";
         this.currentEnrolledModules = new ArrayList<>();
-        //this.completedModules = new ArrayList<>();
+        this.completedModules = new ArrayList<>();
     }
     public String getUsername() {
         return this.username;
     }
     public void setProgram(String program) {
         this.program = program;
+    }
+
+    public ArrayList<String> getCompletedModules() {
+        return completedModules;
+    }
+
+    public void setCompletedModules(ArrayList<String> completedModules) {
+        this.completedModules = completedModules;
     }
 
     public String getProgram() {
