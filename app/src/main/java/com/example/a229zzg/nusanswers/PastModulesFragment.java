@@ -1,6 +1,7 @@
 package com.example.a229zzg.nusanswers;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,19 +54,28 @@ public class PastModulesFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceSaved) {
         FrameLayout myLayout = view.findViewById(R.id.past_frag_layout);
         TextView message = view.findViewById(R.id.no_past_msg);
-        ListView pastModules = view.findViewById(R.id.user_past_modules);
-        initialList();
-        if (modules.isEmpty()) {
+        final ListView pastModules = view.findViewById(R.id.user_past_modules);
+        if (!initialList() && modules.isEmpty()) {
             myLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.ohno_background));
             message.setVisibility(View.VISIBLE);
             return;
         }
         ModuleList adapter = new ModuleList(getActivity(), modules);
         pastModules.setAdapter(adapter);
-
+        pastModules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String moduleFull = pastModules.getItemAtPosition(position).toString();
+                String module[] = moduleFull.split("\\n");
+                Intent intent = new Intent(getActivity(), ModuleHome.class);
+                intent.putExtra("moduleCode", module[0]);
+                intent.putExtra("moduleName", module[1]);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void initialList() {
+    public boolean initialList() {
         DatabaseReference ref = databaseReference.child(firebaseUser.getUid()).child("completedModules");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,5 +93,6 @@ public class PastModulesFragment extends Fragment {
 
             }
         });
+        return true;
     }
 }

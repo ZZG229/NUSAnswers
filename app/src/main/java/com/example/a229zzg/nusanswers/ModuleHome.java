@@ -78,7 +78,7 @@ public class ModuleHome extends AppCompatActivity {
                         Intent questIntent;
                         // upload cheat sheet has a different intent
                         if (pos == 2) {
-                            questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
+                            questIntent = new Intent(ModuleHome.this, UploadCheatSheet.class);
                         } else {
                             questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
                         }

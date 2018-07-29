@@ -43,6 +43,8 @@ public class UploadCheatSheet extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     StorageReference storageReference;
     Uri filePath;
+    String code;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,9 @@ public class UploadCheatSheet extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButtonInCheatSheet);
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("UserContributions");
-
+        intent = getIntent();
+        code = intent.getStringExtra("moduleCode");
+        textViewForMod.setText(code);
         ArrayAdapter<CharSequence> arrayAdapterForSem = ArrayAdapter.createFromResource(this, R.array.Sem, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> arrayAdapterForAY = ArrayAdapter.createFromResource(this, R.array.AY, android.R.layout.simple_spinner_item);
         arrayAdapterForSem.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -97,8 +101,8 @@ public class UploadCheatSheet extends AppCompatActivity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(spinnerForAY.getSelectedItem().toString())
-                    .child(spinnerForSem.getSelectedItem().toString());
+            StorageReference storageReference2 = storageReference.child(code).child("Cheatsheet").child(spinnerForAY.getSelectedItem().toString())
+                    .child(spinnerForSem.getSelectedItem().toString()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             storageReference2.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

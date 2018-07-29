@@ -47,7 +47,6 @@ public class SubmitQuestions extends AppCompatActivity {
     StorageReference storageReference;
     Uri filePath;
     String code;
-    String name;
     Intent intent;
 
     @Override
