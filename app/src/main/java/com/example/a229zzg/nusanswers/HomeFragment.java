@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         final ListView enrolledModules = view.findViewById(R.id.user_enrolled_modules);
         ModuleList adapter = new ModuleList(getActivity(), modules);
         enrolledModules.setAdapter(adapter);
-        if (initialList() && modules.isEmpty()) {
+        if (!initialList() && modules.isEmpty()) {
             myLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.ohno_background));
             message.setVisibility(View.VISIBLE);
         }

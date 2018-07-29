@@ -48,7 +48,7 @@ public class SubmitQuestions extends AppCompatActivity {
     Uri filePath;
     String code;
     String name;
-    Intent intent = getIntent();
+    Intent intent;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -79,7 +79,9 @@ public class SubmitQuestions extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButtonForUploadQnPic);
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("UserContributions");
+        intent = getIntent();
         code = intent.getStringExtra("moduleCode");
+        textViewForMod.setText(code);
 
         ArrayAdapter<CharSequence> arrayAdapterForSem = ArrayAdapter.createFromResource(this, R.array.Sem, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> arrayAdapterForAY = ArrayAdapter.createFromResource(this, R.array.AY, android.R.layout.simple_spinner_item);
@@ -105,8 +107,10 @@ public class SubmitQuestions extends AppCompatActivity {
                         spinnerForType.getSelectedItem().toString(), spinnerForAY.getSelectedItem().toString(),
                         spinnerForSem.getSelectedItem().toString(), firebaseAuth.getCurrentUser().getUid());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                firebaseDatabase.getReference().child("User Contribution").child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
+                firebaseDatabase.getReference().child("UserContribution").child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
                         .child("Content").setValue(question.getContent());
+                firebaseDatabase.getReference().child("UserContribution").child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
+                        .child("Uid").setValue(question.getUid());
                 uploadFile();
             }
         });
@@ -128,7 +132,11 @@ public class SubmitQuestions extends AppCompatActivity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Question question = new Question(editTextForQnInput.getText().toString(),
+                    spinnerForType.getSelectedItem().toString(), spinnerForAY.getSelectedItem().toString(),
+                    spinnerForSem.getSelectedItem().toString(), firebaseAuth.getCurrentUser().getUid());
+            StorageReference storageReference2 = storageReference.child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
+                    .child("Content");
             storageReference2.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

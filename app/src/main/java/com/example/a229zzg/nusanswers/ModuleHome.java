@@ -39,16 +39,24 @@ public class ModuleHome extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private ImageView homeButton;
+    private TextView title;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_home);
-
+        title = findViewById(R.id.module_title);
+        intent = getIntent();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        if (intent != null) {
+            String code = intent.getStringExtra("moduleCode");
+            title.setText(code);
         }
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -87,7 +95,12 @@ public class ModuleHome extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent questIntent = new Intent(ModuleHome.this, SubmitQuestions.class);
+                if (intent != null) {
+                    String code = intent.getStringExtra("moduleCode");
+                    questIntent.putExtra("moduleCode", code);
+                }
+                startActivity(questIntent);
             }
         });
     }
