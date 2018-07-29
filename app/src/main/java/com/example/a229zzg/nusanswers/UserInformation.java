@@ -44,6 +44,7 @@ public class UserInformation extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     //ArrayAdapter<Module> adapter;
     Button button;
+    Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,6 +302,16 @@ public class UserInformation extends AppCompatActivity {
 
             }
         });
+
+        button2 = findViewById(R.id.buttonToUserInformation2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),UserInformation2.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 

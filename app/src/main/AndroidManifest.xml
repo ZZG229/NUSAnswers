@@ -60,11 +60,12 @@
             android:exported="true" />
         <activity
             android:name=".ModuleHome"
+            android:exported="true"
             android:label="@string/title_activity_module_home"
-            android:theme="@style/AppTheme"
-            android:exported="true" />
+            android:theme="@style/AppTheme" />
         <activity android:name=".SubmitAnswer" />
-        <activity android:name=".UploadCheatSheet"></activity>
+        <activity android:name=".UploadCheatSheet" />
+        <activity android:name=".UserInformation2"></activity>
     </application>
 
 </manifest>
