@@ -42,11 +42,12 @@ public class QuestionActivity extends AppCompatActivity {
 
         // Firebase
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
         final int radius = 50;
         final int margin = 5;
+
 
         // Intent
         intent = getIntent();
@@ -55,6 +56,8 @@ public class QuestionActivity extends AppCompatActivity {
         year = intent.getStringExtra("academicYear");
         sem = intent.getStringExtra("semester");
         question = intent.getStringExtra("question");
+        DatabaseReference contentRef = FirebaseDatabase.getInstance().getReference("UserContributions").child(code).child(filter)
+                .child(year).child(sem).child(question);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,24 +70,36 @@ public class QuestionActivity extends AppCompatActivity {
         // Loading related information onto App bar
         final ImageView userProfilePicture = findViewById(R.id.user_profile_pic);
         if (firebaseUser != null) {
-            String id = mAuth.getCurrentUser().getUid();
-            storageReference.child(id).child("Images/Profile Picture").
-                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.get().load(uri).fit().centerCrop().
-                            transform(new RoundTransformation(radius,margin)).into(userProfilePicture);
-                }
-            });
-            DatabaseReference ref = databaseReference.child(id);
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            contentRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    TextView userName = findViewById(R.id.user_name);
-                    if (dataSnapshot.hasChild("username")) {
-                        String displayName = (String) dataSnapshot.child("username").getValue();
-                        userName.setText(displayName);
+                    if(dataSnapshot.hasChild("Uid")) {
+                        String id = (String) dataSnapshot.child("Uid").getValue();
+                        storageReference.child(id).child("Images/Profile Picture").
+                                getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Picasso.get().load(uri).fit().centerCrop().
+                                        transform(new RoundTransformation(radius,margin)).into(userProfilePicture);
+                            }
+                        });
+                        DatabaseReference ref = databaseReference.child(id);
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                TextView userName = findViewById(R.id.user_name);
+                                if (dataSnapshot.hasChild("username")) {
+                                    String displayName = (String) dataSnapshot.child("username").getValue();
+                                    userName.setText(displayName);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 }
 
@@ -93,11 +108,13 @@ public class QuestionActivity extends AppCompatActivity {
 
                 }
             });
+
         }
+
         TextView questionTitle = findViewById(R.id.question_title);
         TextView innerQuestionTitle = findViewById(R.id.inner_question_title);
-        //questionTitle.setText(question);
-        //innerQuestionTitle.setText(question);
+        questionTitle.setText(question);
+        innerQuestionTitle.setText(question);
 
         // Load user uploaded image of question if available
         final ImageView userUpload = findViewById(R.id.user_upload);
@@ -117,8 +134,6 @@ public class QuestionActivity extends AppCompatActivity {
                 });
 
         // Load user uploaded description of question if available
-        DatabaseReference contentRef = FirebaseDatabase.getInstance().getReference("UserContributions").child(code).child(filter)
-                .child(year).child(sem).child(question);
         contentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

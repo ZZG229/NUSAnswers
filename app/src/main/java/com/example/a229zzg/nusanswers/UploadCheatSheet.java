@@ -23,7 +23,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -81,6 +85,7 @@ public class UploadCheatSheet extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 uploadFile();
+                finish();
             }
         });
 
@@ -124,6 +129,11 @@ public class UploadCheatSheet extends AppCompatActivity {
                     progressDialog.setMessage((int) progress+ "% uploading...");
                 }
             });
+
+            // Create a record in database
+            FirebaseDatabase.getInstance().getReference("UserContribution").child(code)
+                    .child("Cheatsheet").child(spinnerForAY.getSelectedItem().toString()).child(spinnerForSem.getSelectedItem().toString())
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("Placeholder");
         }
     }
 

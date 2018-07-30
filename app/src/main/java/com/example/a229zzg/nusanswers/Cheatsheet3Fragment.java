@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +37,7 @@ public class Cheatsheet3Fragment extends Fragment {
     DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserContribution");
     final FirebaseUser firebaseUser = mAuth.getCurrentUser();
     List<String> userList = new ArrayList<>();
+    List<String> uidList = new ArrayList<>();
     String code = null;
     String year = null;
     String sem = null;
@@ -65,16 +67,18 @@ public class Cheatsheet3Fragment extends Fragment {
         ModuleList adapter = new ModuleList(getActivity(), userList);
         enrolledModules.setAdapter(adapter);
 
+
+
         enrolledModules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String question = enrolledModules.getItemAtPosition(position).toString();
-                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                String userName = enrolledModules.getItemAtPosition(position).toString();
+                Intent intent = new Intent(getActivity(), CheatsheetContentActivity.class);
                 intent.putExtra("moduleCode", code);
-                intent.putExtra("filter", "Mid-term");
+                intent.putExtra("filter", "Cheatsheet");
                 intent.putExtra("academicYear", year);
                 intent.putExtra("semester", sem);
-                intent.putExtra("question", question);
+                intent.putExtra("uid", uidList.get(position));
                 startActivity(intent);
             }
         });
@@ -88,8 +92,23 @@ public class Cheatsheet3Fragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userList.clear();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String username = dsp.getKey();
-                    userList.add(username);
+                    String uid = dsp.getKey();
+                    uidList.add(uid);
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("UserInfo").child(uid);
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChild("username")) {
+                                String displayName = (String) dataSnapshot.child("username").getValue();
+                                userList.add(displayName);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 

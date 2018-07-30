@@ -68,9 +68,14 @@
         <activity android:name=".UserInformation2" />
         <activity
             android:name=".QuestionActivity"
+            android:exported="true"
             android:label="@string/title_activity_question"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CheatsheetContentActivity"
+            android:label="@string/title_activity_cheatsheet_content"
             android:theme="@style/AppTheme"
-            android:exported="true" />
+            android:exported="true"/>
     </application>
 
 </manifest>

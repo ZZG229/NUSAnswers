@@ -99,7 +99,7 @@ public class CheatsheetFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 year.clear();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String aYear = dsp.getValue(String.class);
+                    String aYear = dsp.getKey();
                     year.add(aYear);
                 }
             }
