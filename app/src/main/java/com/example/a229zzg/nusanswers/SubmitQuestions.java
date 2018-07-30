@@ -95,7 +95,7 @@ public class SubmitQuestions extends AppCompatActivity {
         buttonForBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), UserHome.class));
+                finish();
             }
         });
 
@@ -111,6 +111,7 @@ public class SubmitQuestions extends AppCompatActivity {
                 firebaseDatabase.getReference().child("UserContribution").child(code).child(question.getFilter()).child(question.getYear()).child(question.getSem()).child("Question" + editTextForQnNum.getText().toString())
                         .child("Uid").setValue(question.getUid());
                 uploadFile();
+                finish();
             }
         });
 

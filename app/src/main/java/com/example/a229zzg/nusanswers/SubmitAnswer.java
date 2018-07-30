@@ -36,7 +36,13 @@ public class SubmitAnswer extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
     private Uri filePath;
-
+    private Intent intent;
+    private String code;
+    private String filter;
+    private String year;
+    private String sem;
+    private String question;
+    private int answerNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +50,23 @@ public class SubmitAnswer extends AppCompatActivity {
         setContentView(R.layout.activity_submit_answer);
         buttonForBack = findViewById(R.id.buttonForBackInSubmitAns);
         buttonForSave = findViewById(R.id.buttonForSaveSubmitAns);
-        imageButton = findViewById(R.id.imageButtonForSubAns);
+    //    imageButton = findViewById(R.id.imageButtonForSubAns);
         editText = findViewById(R.id.editTextForSubmitAns);
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("UserContributions");
 
+        intent = getIntent();
+        code = intent.getStringExtra("moduleCode");
+        filter = intent.getStringExtra("filter");
+        year = intent.getStringExtra("academicYear");
+        sem = intent.getStringExtra("semester");
+        question = intent.getStringExtra("question");
+        answerNum = intent.getIntExtra("answerNumber", -1);
+
         buttonForBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), UserHome.class));
+                finish();
             }
         });
 
@@ -61,11 +75,15 @@ public class SubmitAnswer extends AppCompatActivity {
             public void onClick(View v) {
                 Answer answer = new Answer(editText.getText().toString(),firebaseAuth.getCurrentUser().getUid());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                firebaseDatabase.getReference().child("User Contribution").child(firebaseAuth.getCurrentUser().getUid()).setValue(answer.getContent());
-                uploadFile();
+                firebaseDatabase.getReference().child("UserContribution").child(code).child(filter).child(year).child(sem).child(question).child("Answer")
+                        .child("answerNum").child("Content").setValue(answer.getContent());
+                firebaseDatabase.getReference().child("UserContribution").child(code).child(filter).child(year).child(sem).child(question).child("Answer")
+                        .child("answerNum").child("Uid").setValue(firebaseAuth.getUid());
+        //        uploadFile();
+                finish();
             }
         });
-
+/*
         imageButton.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
@@ -75,15 +93,15 @@ public class SubmitAnswer extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select an Image"), PICK_IMAGE_REQUEST);
             }
-        });
+        }); */
     }
-
+    /*
     private void uploadFile() {
         if(filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            StorageReference storageReference2 = storageReference.child(code).child(filter).child(year).child(sem).child(question).child("Answer").child("answerNum");
             storageReference2.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -108,7 +126,7 @@ public class SubmitAnswer extends AppCompatActivity {
             });
         }
     }
-
+*/
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

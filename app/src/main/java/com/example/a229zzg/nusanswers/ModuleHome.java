@@ -137,7 +137,7 @@ public class ModuleHome extends AppCompatActivity {
     }
     */
     /**
-     * A placeholder fragment containing a simple view.
+     * a placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
         /**
@@ -172,7 +172,7 @@ public class ModuleHome extends AppCompatActivity {
     }
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * a {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -195,7 +195,36 @@ public class ModuleHome extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            // return PlaceholderFragment.newInstance(position + 1);
+            String code;
+            Bundle bundle = null;
+            if (intent != null) {
+                code = intent.getStringExtra("moduleCode");
+                bundle = new Bundle();
+                bundle.putString("moduleCode", code);
+            }
+            switch (position) {
+                case 0:
+                    Fragment midFrag = new MidTermFragment();
+                    if (bundle != null) {
+                        midFrag.setArguments(bundle);
+                    }
+                    return midFrag;
+                case 1:
+                    Fragment finalsFrag = new FinalsFragment();
+                    if (bundle != null) {
+                        finalsFrag.setArguments(bundle);
+                    }
+                    return finalsFrag;
+                case 2:
+                    Fragment cheatFrag = new CheatsheetFragment();
+                    if (bundle != null) {
+                        cheatFrag.setArguments(bundle);
+                    }
+                    return cheatFrag;
+                default:
+                    return null;
+            }
         }
 
         @Override

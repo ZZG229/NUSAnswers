@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".QuestionActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <ImageView
+                android:id="@+id/user_profile_pic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                app:srcCompat="@drawable/circleprofile" />
+
+            <TextView
+                android:id="@+id/question_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="58dp" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <TextView
+            android:id="@+id/inner_question_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:layout_margin="8dp"/>
+
+        <ImageView
+            android:id="@+id/user_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/question_content"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Description"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_margin="8dp"
+            android:visibility="visible"/>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_question" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/submitAnswerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/edit_icon" />
+
+</android.support.design.widget.CoordinatorLayout>

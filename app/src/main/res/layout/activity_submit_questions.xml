@@ -85,7 +85,7 @@
         android:layout_alignStart="@+id/textViewForModule"
         android:layout_marginBottom="23dp"
         android:background="#F2994A"
-        android:text="Back" />
+        android:text="Discard" />
 
     <Spinner
         android:id="@+id/spinnerForAY"

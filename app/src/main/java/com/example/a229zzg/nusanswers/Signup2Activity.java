@@ -92,6 +92,7 @@ public class Signup2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveUserInformation();
+                startActivity(new Intent(Signup2Activity.this, UserInformation.class));
             }
         });
 
@@ -252,6 +253,7 @@ public class Signup2Activity extends AppCompatActivity {
         }
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -273,6 +275,7 @@ public class Signup2Activity extends AppCompatActivity {
         }
         return true;
     }
+    */
 
     private void showImageChooser(){
         Intent intent = new Intent();

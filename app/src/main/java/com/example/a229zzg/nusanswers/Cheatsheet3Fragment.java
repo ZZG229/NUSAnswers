@@ -1,7 +1,8 @@
 package com.example.a229zzg.nusanswers;
 
-
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,49 +27,54 @@ import java.util.List;
 
 
 /**
- * a simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
-
+public class Cheatsheet3Fragment extends Fragment {
     // Firebase
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase mfirebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
+    DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserContribution");
     final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-    List<String> modules = new ArrayList<>();
+    List<String> userList = new ArrayList<>();
+    String code = null;
+    String year = null;
+    String sem = null;
 
-    public HomeFragment() {
+    public Cheatsheet3Fragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_cheatsheet3, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        FrameLayout myLayout = view.findViewById(R.id.home_frag_layout);
-        TextView message = view.findViewById(R.id.not_enrolled_msg);
-        final ListView enrolledModules = view.findViewById(R.id.user_enrolled_modules);
-        ModuleList adapter = new ModuleList(getActivity(), modules);
+        // Fetch the module code from arguments
+        final Bundle bundle = getArguments();
+        code = bundle.getString("moduleCode");
+        year = bundle.getString("academicYear");
+        sem = bundle.getString("semester");
+
+        FrameLayout myLayout = view.findViewById(R.id.cheatsheet3_frag_layout);
+        final ListView enrolledModules = view.findViewById(R.id.user_list);
+        initialList();
+        ModuleList adapter = new ModuleList(getActivity(), userList);
         enrolledModules.setAdapter(adapter);
-        if (!initialList() && modules.isEmpty()) {
-            myLayout.setBackground(getActivity().getResources().getDrawable(R.drawable.ohno_background));
-            message.setVisibility(View.VISIBLE);
-        }
 
         enrolledModules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String moduleFull = enrolledModules.getItemAtPosition(position).toString();
-                String module[] = moduleFull.split("\\n");
-                Intent intent = new Intent(getActivity(), ModuleHome.class);
-                intent.putExtra("moduleCode", module[0]);
-                intent.putExtra("moduleName", module[1]);
+                String question = enrolledModules.getItemAtPosition(position).toString();
+                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                intent.putExtra("moduleCode", code);
+                intent.putExtra("filter", "Mid-term");
+                intent.putExtra("academicYear", year);
+                intent.putExtra("semester", sem);
+                intent.putExtra("question", question);
                 startActivity(intent);
             }
         });
@@ -77,14 +82,14 @@ public class HomeFragment extends Fragment {
     }
 
     public boolean initialList() {
-        DatabaseReference ref = databaseReference.child(firebaseUser.getUid()).child("currentEnrolledModules");
+        DatabaseReference ref = databaseReference.child(code).child("Cheatsheet").child(year).child(sem);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                modules.clear();
+                userList.clear();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String module = dsp.getValue(String.class);
-                    modules.add(module);
+                    String username = dsp.getKey();
+                    userList.add(username);
                 }
             }
 

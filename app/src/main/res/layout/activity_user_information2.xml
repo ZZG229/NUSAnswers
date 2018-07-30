@@ -50,6 +50,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="25dp"
         android:background="#F2A968"
-        android:text="@string/next" />
+        android:text="@string/done" />
 
 </RelativeLayout>

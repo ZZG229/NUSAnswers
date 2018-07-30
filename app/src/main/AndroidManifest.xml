@@ -30,7 +30,7 @@
             android:exported="true"
             android:label="@string/title_activity_user_home"
             android:theme="@style/AppTheme" />
-        <!-- A child of the User Home activity -->
+        <!-- a child of the User Home activity -->
         <activity
             android:name=".UserProfile"
             android:exported="true"
@@ -65,7 +65,12 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".SubmitAnswer" />
         <activity android:name=".UploadCheatSheet" />
-        <activity android:name=".UserInformation2"></activity>
+        <activity android:name=".UserInformation2" />
+        <activity
+            android:name=".QuestionActivity"
+            android:label="@string/title_activity_question"
+            android:theme="@style/AppTheme"
+            android:exported="true" />
     </application>
 
 </manifest>
