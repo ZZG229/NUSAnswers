@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,6 +26,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class QuestionActivity extends AppCompatActivity {
 
     private Intent intent;
@@ -34,6 +37,9 @@ public class QuestionActivity extends AppCompatActivity {
     private String sem;
     private String question;
     private int answerNum;
+    private ArrayList<Contribution> arrayList;
+    private QuestionList questionList;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,6 @@ public class QuestionActivity extends AppCompatActivity {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
         final int radius = 50;
         final int margin = 5;
-
 
         // Intent
         intent = getIntent();
@@ -108,7 +113,6 @@ public class QuestionActivity extends AppCompatActivity {
 
                 }
             });
-
         }
 
         TextView questionTitle = findViewById(R.id.question_title);
@@ -150,6 +154,47 @@ public class QuestionActivity extends AppCompatActivity {
                 content.setVisibility(View.GONE);
             }
         });
+
+        arrayList = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UserContributions").child(code).child(filter)
+                .child(year).child(sem).child(question).child("Answer").child("answerNum");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    if(dataSnapshot1.hasChildren()){
+                        final String answer = (String) dataSnapshot1.child("Content").getValue();
+                        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("UserInfo")
+                                .child(dataSnapshot1.child("Uid").getValue().toString()).child("username");
+                        databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String username = (String) dataSnapshot.getValue();
+                                Contribution contribution = new Contribution(username,answer);
+                                arrayList.add(contribution);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                }
+            }
+
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        questionList = new QuestionList(this,arrayList);
+        listView = findViewById(R.id.ListViewForContribution);
+        listView.setAdapter(questionList);
 
         FloatingActionButton fab = findViewById(R.id.submitAnswerButton);
         fab.setOnClickListener(new View.OnClickListener() {
