@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonLogin).setOnClickListener(this);
     }
 
+    public void openActivity(){
+        Intent intent = new Intent(this,UserInformation.class);
+        startActivity(intent);
+    }
+
     private void userLogin(){
 
         String email = editEmail.getText().toString().trim();
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
+                    finish();
                     Intent intent = new Intent(getApplicationContext(),UserHome.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -89,10 +95,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(this, UserHome.class));
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.TextForSignUp:
-                startActivity(new Intent(this,SignupActivity.class));
+                finish();
+                startActivity(new Intent(this, SignupActivity.class));
                 break;
             case R.id.buttonLogin:
                 userLogin();

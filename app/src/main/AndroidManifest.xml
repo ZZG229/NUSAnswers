@@ -21,16 +21,61 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".Signup2Activity" />
         <activity android:name=".signup3Activity" />
-        <activity android:name=".UserInformation" />
+        <activity
+            android:name=".UserInformation"
+            android:exported="true" />
         <activity android:name=".About" />
         <activity
-            android:name=".UserMain"
+            android:name=".UserHome"
+            android:exported="true"
+            android:label="@string/title_activity_user_home"
+            android:theme="@style/AppTheme" />
+        <!-- a child of the User Home activity -->
+        <activity
+            android:name=".UserProfile"
+            android:exported="true"
+            android:label="@string/title_activity_user_profile"
+            android:parentActivityName=".UserHome"
+            android:theme="@style/AppTheme">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserHome" />
+        </activity>
+        <activity
+            android:name=".Bookmarks"
+            android:exported="true"
+            android:label="@string/title_activity_bookmarks"
+            android:parentActivityName=".UserHome"
+            android:theme="@style/AppTheme">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserHome" />
+        </activity>
+        <activity
+            android:name=".SubmitQuestions"
             android:exported="true" />
         <activity
-            android:name=".UserHome"
-            android:label="@string/title_activity_user_home"
+            android:name=".ModuleHome"
             android:exported="true"
+            android:label="@string/title_activity_module_home"
             android:theme="@style/AppTheme" />
+        <activity android:name=".SubmitAnswer" />
+        <activity android:name=".UploadCheatSheet" />
+        <activity android:name=".UserInformation2" />
+        <activity
+            android:name=".QuestionActivity"
+            android:exported="true"
+            android:label="@string/title_activity_question"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CheatsheetContentActivity"
+            android:label="@string/title_activity_cheatsheet_content"
+            android:theme="@style/AppTheme"
+            android:exported="true"/>
     </application>
 
 </manifest>

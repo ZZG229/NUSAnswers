@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SubmitQuestions">
+
+    <TextView
+        android:id="@+id/textViewForModule"
+        android:layout_width="175dp"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="14dp"
+        android:background="#F2994A"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:text="TextView"/>
+
+    <TextView
+        android:id="@+id/textViewForAY"
+        android:layout_width="48dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="55dp"
+        android:background="#F2994A"
+        android:text="AY"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewForSem"
+        android:layout_width="48dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="96dp"
+        android:background="#F2994A"
+        android:text="SEM"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewForQuestionNumber"
+        android:layout_width="107dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="179dp"
+        android:background="#F2994A"
+        android:text="Question No"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextForEnterQnNum"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editTextForQuestionDescription"
+        android:layout_alignTop="@+id/textViewForQuestionNumber"
+        android:ems="10"
+        android:hint="Enter the Question Number Here"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonForBack"
+        android:layout_width="150dp"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginBottom="23dp"
+        android:background="#F2994A"
+        android:text="Discard" />
+
+    <Spinner
+        android:id="@+id/spinnerForAY"
+        android:layout_width="203dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/textViewForAY"
+        android:layout_toEndOf="@+id/textView18" />
+
+    <Spinner
+        android:id="@+id/spinnerForSem"
+        android:layout_width="203dp"
+        android:layout_height="29dp"
+        android:layout_alignStart="@+id/spinnerForAY"
+        android:layout_alignTop="@+id/textViewForSem" />
+
+    <EditText
+        android:id="@+id/editTextForQuestionDescription"
+        android:layout_width="357dp"
+        android:layout_height="204dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="126dp"
+        android:background="#D7D7D7"
+        android:ems="10"
+        android:hint="Describe your question here!"
+        android:inputType="textMultiLine"
+        android:typeface="serif" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="64dp"
+        android:layout_height="29dp"
+        android:layout_alignBottom="@+id/imageButtonForUploadQnPic"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:background="#F2994A"
+        android:text="Image"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/imageButtonForUploadQnPic"
+        android:layout_width="39dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="78dp"
+        android:layout_toStartOf="@+id/editTextForEnterQnNum"
+        app:srcCompat="@drawable/attachment" />
+
+    <Button
+        android:id="@+id/buttonForSaveQn"
+        android:layout_width="150dp"
+        android:layout_height="37dp"
+        android:layout_alignEnd="@+id/editTextForEnterQnNum"
+        android:layout_alignTop="@+id/buttonForBack"
+        android:background="#F2994A"
+        android:text="Save" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="71dp"
+        android:layout_height="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textViewForModule"
+        android:layout_marginTop="138dp"
+        android:background="#F2994A"
+        android:text="Type"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinnerForType"
+        android:layout_width="176dp"
+        android:layout_height="29dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView19"
+        android:layout_marginEnd="106dp" />
+
+</RelativeLayout>

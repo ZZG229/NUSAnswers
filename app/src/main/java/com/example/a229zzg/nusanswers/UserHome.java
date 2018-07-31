@@ -1,8 +1,11 @@
 package com.example.a229zzg.nusanswers;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,7 +18,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import org.w3c.dom.Text;
 
 public class UserHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,20 +49,29 @@ public class UserHome extends AppCompatActivity
     TabItem tabContributions;
     TabItem tabPastModules;
     TabItem tabSearch;
+    final int radius = 300;
+    final int margin = 15;
+
+    //FIREBASE
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseDatabase mfirebaseDatabase = FirebaseDatabase.getInstance();
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("UserInfo");
+    DatabaseReference databaseReference = mfirebaseDatabase.getReference("UserInfo");
+    final FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(R.string.home_title));
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
@@ -126,19 +156,100 @@ public class UserHome extends AppCompatActivity
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // Do whatever you want here
+            }
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                final ImageView userPicture = findViewById(R.id.nav_profile_picture);
+                if (firebaseUser != null) {
+                    String id = firebaseUser.getUid();
+                    storageReference.child(id).child("Images/Profile Picture").
+                            getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).fit().centerCrop().
+                                    transform(new RoundTransformation(radius,margin)).into(userPicture);
+                        }
+                    });
+
+                    DatabaseReference ref = databaseReference.child(id);
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            TextView userName = findViewById(R.id.nav_user_name);
+                            if (dataSnapshot.hasChild("username")) {
+                                String displayName = (String) dataSnapshot.child("username").getValue();
+                                userName.setText(displayName);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        };
+        // Loading user profile picture into hamburger icon
+        final ImageView userProfilePicture = findViewById(R.id.user_hamburger);
+        if (firebaseUser != null) {
+            String id = mAuth.getCurrentUser().getUid();
+            storageReference.child(id).child("Images/Profile Picture").
+                    getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit().centerCrop().
+                            transform(new RoundTransformation(50, 5)).into(userProfilePicture, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Drawable image = userProfilePicture.getDrawable();
+                                    toggle.setDrawerIndicatorEnabled(false);
+                                    toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            drawer.openDrawer(GravityCompat.START);
+                                        }
+                                    });
+                                    toggle.setHomeAsUpIndicator(image);
+                                    userProfilePicture.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onError(Exception exception) {
+
+                                }
+                    });
+                }
+            });
+        }
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -146,7 +257,7 @@ public class UserHome extends AppCompatActivity
         }
     }
 
-    /*
+    /* Create menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -176,21 +287,19 @@ public class UserHome extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_profile) {
+            startActivity(new Intent(this, UserProfile.class));
+        } else if (id == R.id.nav_bookmarks) {
+            startActivity(new Intent(this, Bookmarks.class));
+        } else if (id == R.id.nav_about) {
+            startActivity(new Intent(this, About.class));
+        } else if (id == R.id.nav_logout) {
+            mAuth.signOut();
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -6,12 +6,19 @@
     <string name="password_single">Password</string>
     <string name="Email">"Email Address"</string>
     <string name="log_in">"Log in"</string>
-    <string name="Travis_and_zegang">"Travis Ching Zhou Zegang"</string>
+    <string name="add">Add</string>
+    <string name="SearchForMod">"Search For a Module"</string>
+    <string name="Travis_and_zegang">"Travis Ching || Zhou Zegang"</string>
     <string name="do_not_have_an_account">"Don't have an account ?"</string>
     <string name="developed_by">"Developed by"</string>
     <string name="create_account">"Create your account"</string>
     <string name="name">Name</string>
     <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="verified">Verified</string>
+    <string name="email_verified">Email verified</string>
+    <string name="email_not_verified">Email not verified (Tap to verify)</string>
+    <string name="Tap_on_camera">"Tap on camera to choose profile picture"</string>
     <string name="NUSAnswers_is_an...">"NUSAnswers is an online community for NUS students to ask questions about past-year papers, answer others and learn together."</string>
     <string name="developed_by_twonames">"Developed by Travis Ching || Zhou Zegang"</string>
     <string name="sign_up">"Sign Up"</string>
@@ -22,9 +29,120 @@
     <string name="which_programme_are_you_enrolled_in">"Which programme are you enrolled in ?"</string>
     <string name="sign_up_requirement">"By signing up, you agree to the Terms of Service and Private Policy, including Cookie use."</string>
     <string name="password_requirement">"Password needs to be at least 6 digit long"</string>
+    <string name="done">"Done"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="AY">
+        <item>2000|01</item>
+        <item>2001|02</item>
+        <item>2002|03</item>
+        <item>2004|05</item>
+        <item>2005|06</item>
+        <item>2006|07</item>
+        <item>2007|08</item>
+        <item>2008|09</item>
+        <item>2009|10</item>
+        <item>2010|11</item>
+        <item>2011|12</item>
+        <item>2012|13</item>
+        <item>2013|14</item>
+        <item>2014|15</item>
+        <item>2015|16</item>
+        <item>2016|17</item>
+        <item>2017|18</item>
+        <item>2018|19</item>
+        <item>2019|20</item>
+    </string-array>
+
+    <string-array name="Sem">
+        <item>Sem 1</item>
+        <item>Sem 2</item>
+    </string-array>
+
+    <string-array name="Type">
+        <item>Mid-term</item>
+        <item>Final</item>
+    </string-array>
+
+
+    <string-array name="Programmes">
+        <item>Applied Mathematics</item>
+        <item>Applied Mathematics with specialisation in Mathematical Modelling and Data Analytics</item>
+        <item>Applied Mathematics with specialisation in Operations Research and Financial Mathematics</item>
+        <item>Architecture</item>
+        <item>Biomedical Engineering</item>
+        <item>Business Administration</item>
+        <item>Business Administration (Accountancy)</item>
+        <item>Business Analytics</item>
+        <item>Chemical Engineering</item>
+        <item>Chemistry</item>
+        <item>Chemistry (with specialisation in Environment and Energy)</item>
+        <item>Chemistry (with specialisation in Materials Chemistry)</item>
+        <item>Chemistry (with specialisation in Medicinal Chemistry)</item>
+        <item>Chinese Language</item>
+        <item>Chinese Studies</item>
+        <item>Civil Engineering</item>
+        <item>Communications and New Media</item>
+        <item>Computational Biology</item>
+        <item>Computer Engineering</item>
+        <item>Computer Science</item>
+        <item>Data Science and Analytics</item>
+        <item>Dentistry</item>
+        <item>Economics</item>
+        <item>Electrical Engineering</item>
+        <item>Engineering</item>
+        <item>Engineering Science</item>
+        <item>English Language</item>
+        <item>English Literature</item>
+        <item>Environmental Engineering</item>
+        <item>Environmental Studies in Biology</item>
+        <item>Environmental Studies in Geography</item>
+        <item>European Studies</item>
+        <item>Food Science and Technology</item>
+        <item>Geography</item>
+        <item>Global Studies</item>
+        <item>Graduate LL.B. Programme</item>
+        <item>History</item>
+        <item>Industrial and Systems Engineering</item>
+        <item>Industrial Design</item>
+        <item>Information Security</item>
+        <item>Information Systems</item>
+        <item>Japanese Studies</item>
+        <item>Life Sciences</item>
+        <item>Life Sciences (with specialisation in Biomedical Science)</item>
+        <item>Life Sciences (with specialisation in Environmental Biology)</item>
+        <item>Life Sciences (with specialisation in Molecular and Cell Biology)</item>
+        <item>Malay Studies</item>
+        <item>Material Science and Engineering</item>
+        <item>Mathematics</item>
+        <item>Mechanical Engineering</item>
+        <item>Medicine</item>
+        <item>Music</item>
+        <item>Nursing</item>
+        <item>Pharmaceutical Science</item>
+        <item>Pharmacy</item>
+        <item>Philosophy</item>
+        <item>Physics</item>
+        <item>Physics (with specialisation in Astrophysics)</item>
+        <item>Physics (with specialisation in Nanophysics)</item>
+        <item>Political Science</item>
+        <item>Project and Facilities Management</item>
+        <item>Psychology</item>
+        <item>Quantitative Finance</item>
+        <item>Real Estate</item>
+        <item>Social Work</item>
+        <item>Sociology</item>
+        <item>South Asian Studies</item>
+        <item>Southeast Asian Studies</item>
+        <item>Statistics</item>
+        <item>Statistics (with specialisation in Data Science)</item>
+        <item>Statistics (with specialisation in Finance and Business Statistics)</item>
+        <item>Theatre Studies</item>
+        <item>Undergraduate Law Programme</item>
+
+    </string-array>
 
     <!-- Strings for User Home -->
     <string name="home_title">Home</string>
@@ -38,4 +156,122 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_bookmarks">Bookmarks</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_logout">Log out</string>
+    <string name="not_enrolled">Opps! o.o\nIt looks like you have not enrolled in any modules yet!</string>
+    <string name="no_past">Opps! o.o\nIt looks like you did not want us to find out your past hahaha.</string>
+    <string name="no_contribution">Opps! o.o\nIt looks like nobody contributed to this module yet!</string>
+
+    <!-- Strings for User Profile -->
+    <string name="title_activity_user_profile">UserProfile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="title_activity_bookmarks">Bookmarks</string>
+
+    <!-- Strings for Navigation Drawer -->
+    <string name="bookmarks_title">Bookmarks</string>
+    <string name="feature_not_implemented">Sorry :(\nWe are still working on this feature at the moment!</string>
+    <string name="title_activity_module_home">ModuleHome</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Strings for Module Home -->
+    <string name="midterm_tab">Mid-Term</string>
+    <string name="finals_tab">Finals</string>
+    <string name="cheatsheet_tab">Cheatsheet</string>
+    <string name="title_activity_question">QuestionActivity</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
+
+    <!-- CheatSheet -->
+    <string name="title_activity_cheatsheet_content">CheatsheetContentActivity</string>
+    <string name="disclaimer_msg">The contents of this cheatsheet belongs to the author and is only for personal use. Illegal distribution or sales will be prosecuted.</string>
 </resources>
