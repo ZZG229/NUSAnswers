@@ -78,12 +78,15 @@ public class MidTermFragment extends Fragment {
                 nextBundle.putString("moduleCode", code);
                 nextBundle.putString("academicYear", academicYear);
                 midTerm2Fragment.setArguments(nextBundle);
-                FragmentManager manager = getFragmentManager();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
                 manager.beginTransaction()
-                        .replace(R.id.mid_term_frag_layout, midTerm2Fragment)
+                        .replace(R.id.container, midTerm2Fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
                         .commit();
+                if (midTerm2Fragment.isAdded()) {
+                    return;
+                }
             }
         });
 
@@ -95,7 +98,7 @@ public class MidTermFragment extends Fragment {
         }
 
         DatabaseReference ref = databaseReference.child(code).child("Mid-term");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 year.clear();

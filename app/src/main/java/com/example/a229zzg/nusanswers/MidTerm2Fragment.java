@@ -77,7 +77,7 @@ public class MidTerm2Fragment extends Fragment {
                 midTerm3Fragment.setArguments(nextBundle);
                 FragmentManager manager = getFragmentManager();
                 manager.beginTransaction()
-                        .replace(R.id.mid_term_frag_layout, midTerm3Fragment)
+                        .replace(R.id.container, midTerm3Fragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
                         .commit();
@@ -89,7 +89,7 @@ public class MidTerm2Fragment extends Fragment {
 
     public boolean initialList() {
         DatabaseReference ref = databaseReference.child(code).child("Mid-term").child(year);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 sem.clear();
